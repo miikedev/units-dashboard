@@ -36,7 +36,7 @@ const Login = () => {
     console.log(submitted)
 
     return (
-        <Card className="py-4 max-w-[350px]">
+        <Card className="py-4 max-w-[350px]" radius="none">
             <CardHeader className="pb-0 pt-2 px-3 flex-col items-center text-start w-full">
                 <Image src={Logo} alt="Logo" className="rounded-full h-11 w-11" />
                 <h1 className="text-2xl font-bold text-start">Login</h1>
