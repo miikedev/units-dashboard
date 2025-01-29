@@ -11,7 +11,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [submitted, setSubmitted] = useState(null);
-    const { data, mutate, isSuccess, isError, error, isPending, is } = useLoginMutation();
+    const { data, mutate, isSuccess, isError, error, isPending } = useLoginMutation();
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -24,14 +24,14 @@ const Login = () => {
     };
     useEffect(() => {
         if (isSuccess) {
-          // Show success message
-          // Navigate to dashboard after a short delay
-          const timer = setTimeout(() => {
-            navigate("/dashboard")
-          }, 1000)
-          return () => clearTimeout(timer)
+            // Show success message
+            // Navigate to dashboard after a short delay
+            const timer = setTimeout(() => {
+                navigate("/dashboard")
+            }, 1000)
+            return () => clearTimeout(timer)
         }
-      }, [isSuccess, navigate])
+    }, [isSuccess, navigate])
 
     console.log(submitted)
 
@@ -46,33 +46,13 @@ const Login = () => {
                 <Form className="w-full max-w-xs flex flex-col gap-4 my-4" validationBehavior="native" onSubmit={onSubmit}>
                     <Input
                         size="md"
+                        radius="none"
                         isRequired
                         errorMessage="Please enter a valid email"
                         label="Email"
                         labelPlacement="outside"
                         name="email"
                         className="bg-none"
-                        classNames={{
-                            label: "text-black/50 dark:text-white/90",
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "shadow-xl",
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "dark:focus-within:!bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
                         placeholder="Enter your email"
                         type="email"
                         value={email}
@@ -80,39 +60,25 @@ const Login = () => {
                     />
                     <Input
                         size="md"
+                        radius="none"
                         isRequired
                         errorMessage="Please enter a valid password"
                         label="Password"
                         labelPlacement="outside"
                         name="password"
-                        classNames={{
-                            label: "text-black/50 dark:text-white/90",
-                            input: [
-                                "bg-transparent",
-                                "text-black/90 dark:text-white/90",
-                                "placeholder:text-default-700/50 dark:placeholder:text-white/60",
-                            ],
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: [
-                                "shadow-xl",
-                                "bg-default-200/50",
-                                "dark:bg-default/60",
-                                "backdrop-blur-xl",
-                                "backdrop-saturate-200",
-                                "hover:bg-default-200/70",
-                                "focus-within:!bg-default-200/50",
-                                "dark:hover:bg-default/70",
-                                "dark:focus-within:!bg-default/60",
-                                "!cursor-text",
-                            ],
-                        }}
                         placeholder="Enter your password"
                         type="password"
                         value={password}
                         onValueChange={setPassword}
                     />
-                    <Button size="md" type="submit" disabled={isPending} className="font-regular">
-                    {isPending ? <span> Submitting... </span> : isSuccess ? <span>Success</span> : "Submit"}
+                    <Button
+                        type="submit"
+                        size="md"
+                        color="default"
+                        disabled={isPending}
+                        radius="none"
+                    >
+                        {isPending ? "Submitting..." : isSuccess ? "Success!" : "Submit"}
                     </Button>
                     {isError && <p className="text-red-500 text-sm mt-2">{error?.message || "An error occurred during login."}</p>}
                     {/* {submitted && (

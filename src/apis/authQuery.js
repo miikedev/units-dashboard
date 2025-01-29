@@ -13,11 +13,13 @@ export const useLoginMutation = () => {
             throw error; // Throw the error after logging it
         },
         onSuccess: (data) => {
-            localStorage.setItem("token", data.token);
+            localStorage.setItem("token", data?.data.token);
+            console.log('reponse data', data)
             console.log(`Successfully logged in!`);
         },
         onSettled: () => {
         }
     })
 }
+
 

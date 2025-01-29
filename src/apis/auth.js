@@ -1,33 +1,21 @@
-import { axios, constructUrl, instance, IS_PRODUCTION, handleApiError } from ".";
+import { instance, handleApiError } from ".";
 
-export const fetchLogin = async ({ email, password }) => {  
-    const url = constructUrl(`/login`);  
+export const fetchLogin = async ({ email, password }) => {   
     const payload = { email, password };  
     try {  
-      const response = IS_PRODUCTION  
-        ? await instance.post(url, payload)  
-        : await axios.post(url, payload);  
-      return response.data;  
+      const response = instance.post('/login',payload)  
+      console.log(response)
+        return response;
     } catch (error) {  
+        console.log(error)
        return handleApiError(error);
   };  
 }
   
-  export const fetchLogout = async ({ token }) => {  
-    const url = constructUrl(`/logout`);  
+  export const fetchLogout = async () => {  
     try {  
-      const response = IS_PRODUCTION  
-        ? await instance.post(url, null, {  
-            headers: {  
-              Authorization: `Bearer ${token}`,  
-            },  
-          })  
-        : await axios.post(url, null, {  
-            headers: {  
-              Authorization: `Bearer ${token}`,  
-            },  
-          });  
-      
+      const response = instance.post('/logout')    
+      console.log(response)
       return response;  
     } catch (error) {  
       console.error(`Error fetching logout:`, error);  
