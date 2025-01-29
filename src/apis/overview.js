@@ -1,11 +1,15 @@
-import { instance, handleApiError } from ".";
+import { instance, constructUrl, IS_PRODUCTION, axios } from ".";
 
 
 export const fetchOverview = async () => {    
-    try {  
-      const response = await instance.get('/units/counts')  
-        return response.data;  
-    } catch (error) {  
-        return handleApiError(error);
-    }  
+    const url = constructUrl(`/units/counts`);  
+  try {  
+    const response = IS_PRODUCTION  
+      ? await instance.get(url)  
+      : await axios.get(url);  
+      return response.data;  
+  } catch (error) {  
+    console.error(`Error fetching units:`, error);  
+    throw error;  
+  }    
 };  
