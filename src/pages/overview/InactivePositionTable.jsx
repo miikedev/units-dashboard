@@ -4,7 +4,7 @@ import {Table, TableHeader, TableColumn, TableBody, TableRow, TableCell} from "@
 const InactivePositionTable = ({data}) => {
     console.log(data)
     return (
-        <Table aria-label="Example static collection table">
+        <Table aria-label="Example static collection table" radius='none'>
           <TableHeader>
             <TableColumn>ရာထူး</TableColumn>
             <TableColumn>Level</TableColumn>
