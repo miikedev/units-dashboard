@@ -23,9 +23,6 @@ const CreateModal = ({ isOpen, onClose }) => {
     const [states = []] = useAtom(stateAtom);
     const [disctricts = []] = useAtom(districtAtom);
     const [townships = []] = useAtom(townshipAtom);
-    const positions = fetchedPositions?.data?.positions 
-    ? [...fetchedPositions.data.positions] // Ensure array
-    : [];
     const [selectedStateKey, setSelectedStateKey] = useAtom(selectedCreateStateKeyAtom);
     const [selectedDistrictKey, setSelectedDistrictKey] = useAtom(selectedCreateDistrictKeyAtom);
     const [selectedTownshipKey, setSelectedTownshipKey] = useAtom(selectedCreatedTownshipKeyAtom);
@@ -70,7 +67,7 @@ const CreateModal = ({ isOpen, onClose }) => {
         const selectedState = states?.find(s => s.key === formData.state);
         const selectedDistrict = disctricts?.find(d => d.key === formData?.district);
         const selectedTownship = townships?.find(t => t.key === formData?.township);
-        const { _id: selectedPositionId } = positions?.find(p => p?.name === formData?.position_id);
+        const { _id: selectedPositionId } = fetchedPositions?.find(p => p?.name === formData?.position_id);
         console.log('selectedPosition id', selectedPositionId);
         // Validate selections
         console.log('validation message', validation)
@@ -220,7 +217,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         // isInvalid={isValid || !touch ? false : true}
                                         name="position_id"
                                         className="max-w-xs rounded-none"
-                                        defaultItems={positions}
+                                        defaultItems={fetchedPositions}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
                                             listbox: "rounded-none",

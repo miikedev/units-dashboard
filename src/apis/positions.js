@@ -21,7 +21,7 @@ export const fetchPositions = async (token) => {
             }, 
           }
       );  
-    return response;   
+    return response?.data;   
     } catch (error) {  
       console.error(`Error fetching positions:`, error.message);  
       throw error;  
