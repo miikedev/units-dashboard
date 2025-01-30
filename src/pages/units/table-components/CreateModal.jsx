@@ -1,6 +1,6 @@
 import { Autocomplete, AutocompleteItem, Button, Form, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { useAtom } from 'jotai';
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, Component } from 'react'
 
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
 import { useUnitCreateMutation } from "@/apis/unitsQuery";
@@ -20,10 +20,10 @@ const CreateModal = ({ isOpen, onClose }) => {
     const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
     const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending, reset } = useUnitCreateMutation();
     console.log('is mutate success', isMutateSuccess);
-    const { positions } = fetchedPositions;
-    const [states,] = useAtom(stateAtom)
-    const [disctricts,] = useAtom(districtAtom)
-    const [townships,] = useAtom(townshipAtom)
+    const [states = []] = useAtom(stateAtom);
+    const [disctricts = []] = useAtom(districtAtom);
+    const [townships = []] = useAtom(townshipAtom);
+    const { positions = [] } = fetchedPositions?.data;
     const [selectedStateKey, setSelectedStateKey] = useAtom(selectedCreateStateKeyAtom);
     const [selectedDistrictKey, setSelectedDistrictKey] = useAtom(selectedCreateDistrictKeyAtom);
     const [selectedTownshipKey, setSelectedTownshipKey] = useAtom(selectedCreatedTownshipKeyAtom);
@@ -136,8 +136,9 @@ const CreateModal = ({ isOpen, onClose }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
-                            <ModalBody>
+                            <ErrorBoundary>
+                                <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
+                                <ModalBody>
                                 <Form onSubmit={handleSubmit}>
                                     <Input name="name" type="text" placeholder="နာမည်ရိုက်ပါ" radius='none' isRequired/>
                                     <Input name="contact" type="text" placeholder="လိပ်စာရိုက်ပါ" radius='none' />
@@ -150,7 +151,7 @@ const CreateModal = ({ isOpen, onClose }) => {
 
                                         name="state"
                                         className="max-w-xs rounded-none"
-                                        defaultItems={states}
+                                        defaultItems={states ?? []}
                                         onSelectionChange={onStateSelectionChange}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
@@ -173,7 +174,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         onSelectionChange={onDistrictSelectionChange}
                                         name="district"
                                         className="max-w-xs rounded-none"
-                                        defaultItems={disctricts}
+                                        defaultItems={disctricts ?? []}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
                                             listbox: "rounded-none",
@@ -193,7 +194,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                     {(selectedDistrictKey.district) && <Autocomplete
                                         className="max-w-xs rounded-none"
                                         name="township"
-                                        defaultItems={townships}
+                                        defaultItems={townships ?? []}
                                         onSelectionChange={onTownshipSelectionChange}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
@@ -268,13 +269,28 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         {showSuccess && <span className="text-green-600">ခန့်အပ်ခြင်းအောင်မြင်ပါသည်။</span>}
                                     </ModalFooter>
                                 </Form>
-                            </ModalBody>
+                                </ModalBody>
+                            </ErrorBoundary>
                         </>
                     )}
                 </ModalContent>
             </Modal>
         </div>
     )
+}
+class ErrorBoundary extends Component {
+    state = { hasError: false };
+    
+    static getDerivedStateFromError(error) {
+      return { hasError: true };
+    }
+  
+    render() {
+      if (this.state.hasError) {
+        return <div>Something went wrong with the form</div>;
+      }
+      return this.props.children;
+    }
 }
 
 export default CreateModal
