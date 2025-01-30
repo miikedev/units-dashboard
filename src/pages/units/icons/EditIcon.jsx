@@ -1,6 +1,7 @@
 export const EditIcon = (props) => {
     return (
         <svg
+            className="hover:text-blue-500"
             aria-hidden="true"
             fill="none"
             focusable="false"

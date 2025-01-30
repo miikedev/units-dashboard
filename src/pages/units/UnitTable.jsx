@@ -1,19 +1,15 @@
-import React from "react";
-import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    getKeyValue,
-    Radio,
-    RadioGroup,
-    Chip,
-    Pagination
-} from "@heroui/react";
-import { RenderTableCells } from "./table-components/RenderCells";
+import Loading from "@/components/Loading";
+import { Card, CardBody, Chip, getKeyValue, Pagination, Radio, RadioGroup, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from "@heroui/react";
+import {useState, useCallback, useEffect} from "react";
+
 import FilterCard from "./table-components/FilterCard";
+import { RenderTableCells } from "./table-components/RenderCells";
+import { useAtom } from "jotai";
+import { pageAtom } from "./atoms";
+import { useUnitDeleteMutation } from "@/apis/unitsQuery";
+import EditModal from "./table-components/EditModal";
+import { QueryClient } from "@tanstack/react-query";
+import { fetchUnitById } from "@/apis/units";
 
 export const columns = [
     {
@@ -21,7 +17,7 @@ export const columns = [
         label: "နာမည်",
     },
     {
-        key: "လိပ်စာ",
+        key: "contact",
         label: "CONTACT",
     },
     {
@@ -45,17 +41,54 @@ export const statusColorMap = {
     true: "success",
     false: "warning",
 };
+const queryClient = new QueryClient()
 
-export default function UnitTable({ units }) {
-    const [selectionBehavior, setSelectionBehavior] = React.useState("toggle");
-    console.log('units', units)
-    const renderCell = React.useCallback(RenderTableCells, []);
+export default function UnitTable({ units, isSuccess, isPending, pagination }) {
+    const [selectionBehavior, setSelectionBehavior] = useState(false);
+    const [page, setPage] = useAtom(pageAtom)
+    const { isOpen: editIsOpen, onOpen: editOnOpen, onClose: editOnClose } = useDisclosure();
+    const [editedId, setEditedId] = useState('')
+    useEffect(() => {
+        if (!editIsOpen) {
+            console.log('Modal closed');
+            setEditedId('')
+          }
+    },[editIsOpen])
+    const rerender = useState(0)[1]
+
+    const {mutate, isSuccess: isMutateSuccess, isPending: isMutatePending} = useUnitDeleteMutation();
+    const prefetchedUnit = async (id) => {
+        try {
+          // Prefetch the data using React Query
+          await queryClient.prefetchQuery({
+            queryKey: ['units',id],
+            queryFn: () => fetchUnitById(id),
+            staleTime: 5 * 1000, // Data will be fresh for 20 seconds
+          });
+        } catch (error) {
+          console.error("Prefetch failed:", error);
+          // Handle error appropriately
+        }
+      };
+    const renderCell = useCallback(RenderTableCells, []);
+    const handleEditClick = (id) => {
+        // alert(id)
+        console.log(editOnOpen)
+        setEditedId(id)
+        editOnOpen()
+    }
+    console.log('edited id', editedId)
     return (
         <div className="flex flex-col gap-3 rounded-none">
-            <FilterCard />
-            <Table
+            <FilterCard selectionBehavior={selectionBehavior} setSelectionBehavior={setSelectionBehavior} />
+            {isPending && <Card radius="none">
+                <CardBody>
+                    <Loading />
+                </CardBody>
+            </Card>}
+            {isSuccess && <Table
                 aria-label="Selection behavior table example with dynamic content"
-                selectionBehavior={selectionBehavior}
+                selectionBehavior={selectionBehavior ? 'toggle' : 'replace'}
                 selectionMode="multiple"
                 className="rounded-none"
                 radius="none"
@@ -113,12 +146,20 @@ export default function UnitTable({ units }) {
                 <TableBody items={units?.data}>
                     {(item) => (
                         <TableRow key={item.code}>
-                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                            {(columnKey) => <TableCell>{renderCell(item, columnKey, page, mutate, handleEditClick, prefetchedUnit)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>
-            </Table>
-            <Pagination radius="none" showControls initialPage={1} total={10} />
+            </Table>}
+            <Pagination 
+                page={pagination?.currentPage}
+                total={pagination?.totalPages}
+                onChange={(page) => setPage(page)}
+                radius="none" 
+                color="default"
+                showControls 
+                initialPage={1} 
+            />
             <RadioGroup
                 label="Selection Behavior"
                 orientation="horizontal"
@@ -128,6 +169,8 @@ export default function UnitTable({ units }) {
                 <Radio value="toggle">Toggle</Radio>
                 <Radio value="replace">Replace</Radio>
             </RadioGroup>
+            <EditModal id={editedId} isOpen={editIsOpen} onClose={editOnClose} />
+
         </div>
     );
 }

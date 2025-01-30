@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { useState } from 'react'
 
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
-import { useUnitCreateMutation } from "@/apis/unitsQuery";
+import { useUnitCreateMutation, useUnitFetchByIdQuery } from "@/apis/unitsQuery";
 
 // const positions = [
 //     { key: "1", label: "Software Engineer" },
@@ -16,10 +16,10 @@ const status = [
     { key: "1", label: "ခန့်အပ်ပြီး" },
     { key: "2", label: "မခန့်အပ်သေး" }
 ]
-const CreateModal = ({ isOpen, onClose }) => {
+const EditModal = ({ isOpen, onClose, id }) => {
     const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
     const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending } = useUnitCreateMutation();
-    console.log('is mutate success', isMutateSuccess);
+    const { data: editedData, isSuccess: editedDataSuccess } = useUnitFetchByIdQuery(id)
     const { positions } = fetchedPositions;
     const [states,] = useAtom(stateAtom)
     const [disctricts,] = useAtom(districtAtom)
@@ -31,7 +31,6 @@ const CreateModal = ({ isOpen, onClose }) => {
     const [validation, setValidation] = useState({});
     const [stateKey, setStateValue] = useState("")
     const [touchState, setTouchState] = useState(false)
-
     const onStateSelectionChange = (state) => {
         if (state === null) {
             setSelectedStateKey({ state: null, level: null });
@@ -120,21 +119,21 @@ const CreateModal = ({ isOpen, onClose }) => {
                     },
                 },
             }} radius='none' backdrop={"blur"} isOpen={isOpen} onClose={onClose}>
-                <ModalContent>
+                {editedDataSuccess &&<ModalContent>
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
                             <ModalBody>
                                 <Form onSubmit={handleSubmit}>
-                                    <Input name="name" type="text" placeholder="နာမည်ရိုက်ပါ" radius='none' />
-                                    <Input name="contact" type="text" placeholder="လိပ်စာရိုက်ပါ" radius='none' />
+                                    <Input defaultValue={editedData?.name} name="name" type="text" placeholder="နာမည်ရိုက်ပါ" radius='none' />
+                                    <Input defaultValue={editedData?.contact} name="contact" type="text" placeholder="လိပ်စာရိုက်ပါ" radius='none' />
                                     <Autocomplete
                                         validationBehavior="native"
                                         // errorMessage={validation.type == undefined ? "" : "You must select a location"}
                                         // isInvalid={validation.type == undefined ? false : true}
                                         selectedKey={selectedStateKey.label}
                                         // onClose={() => setTouchState(true)}
-
+                                        defaultSelectedKey={editedData?.level_details?.state?.name}
                                         name="state"
                                         className="max-w-xs rounded-none"
                                         defaultItems={states}
@@ -158,6 +157,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                     </Autocomplete>
                                     {(selectedStateKey.state) && <Autocomplete
                                         onSelectionChange={onDistrictSelectionChange}
+                                        defaultSelectedKey={editedData?.level_details?.district?.name}
                                         name="district"
                                         className="max-w-xs rounded-none"
                                         defaultItems={disctricts}
@@ -180,6 +180,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                     {(selectedDistrictKey.district) && <Autocomplete
                                         className="max-w-xs rounded-none"
                                         name="township"
+                                        defaultSelectedKey={editedData?.level_details?.township?.name}
                                         defaultItems={townships}
                                         onSelectionChange={onTownshipSelectionChange}
                                         classNames={{
@@ -202,6 +203,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                     <Autocomplete
                                         // errorMessage={isValid || !touch ? "" : "You must select a location"}
                                         // isInvalid={isValid || !touch ? false : true}
+                                        defaultSelectedKey={editedData?.position_id?._id}
                                         name="position_id"
                                         className="max-w-xs rounded-none"
                                         defaultItems={positions}
@@ -225,6 +227,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                     <Autocomplete
                                         name="status"
                                         className="max-w-xs rounded-none"
+                                        defaultSelectedKey={editedData?.status ? "1" : "2"}
                                         defaultItems={status}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
@@ -258,10 +261,10 @@ const CreateModal = ({ isOpen, onClose }) => {
                             </ModalBody>
                         </>
                     )}
-                </ModalContent>
+                </ModalContent>}
             </Modal>
         </div>
     )
 }
 
-export default CreateModal
+export default EditModal

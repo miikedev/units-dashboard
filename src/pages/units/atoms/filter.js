@@ -5,8 +5,6 @@ import data from '../../../assets/geo.json'
 export const statusFilterAtom = atom();
 export const fetchedPositionsAtom = atom([]);
 
-export const pageAtom = atom(1)
-
 export const selectedCreateStateKeyAtom = atom({});
 export const selectedCreateDistrictKeyAtom = atom({});
 export const selectedCreatedTownshipKeyAtom = atom({});

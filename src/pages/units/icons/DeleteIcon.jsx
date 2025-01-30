@@ -1,6 +1,7 @@
 export const DeleteIcon = (props) => {
     return (
         <svg
+            className="hover:text-red-600"
             aria-hidden="true"
             fill="none"
             focusable="false"
