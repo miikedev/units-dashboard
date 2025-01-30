@@ -1,6 +1,6 @@
 import { Autocomplete, AutocompleteItem, Button, Form, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { useAtom } from 'jotai';
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
 import { useUnitCreateMutation } from "@/apis/unitsQuery";
@@ -18,7 +18,7 @@ const status = [
 ]
 const CreateModal = ({ isOpen, onClose }) => {
     const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
-    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending } = useUnitCreateMutation();
+    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending, reset } = useUnitCreateMutation();
     console.log('is mutate success', isMutateSuccess);
     const { positions } = fetchedPositions;
     const [states,] = useAtom(stateAtom)
@@ -72,9 +72,10 @@ const CreateModal = ({ isOpen, onClose }) => {
         console.log('selectedPosition id', selectedPositionId);
         // Validate selections
         console.log('validation message', validation)
-        if (!selectedState && !selectedDistrict && !selectedTownship) {
-            setValidation({ type: 'location', msg: 'please select at a location' });
-        }
+        if (!selectedStateKey.state && !selectedDistrictKey.district && !selectedTownshipKey.township) {
+            setValidation({ type: 'location', msg: 'Please select at least one location' });
+            return; // ← Add this
+          }
         // Transform data to match schema
         const transformedData = {
             name: formData.name,
@@ -92,12 +93,24 @@ const CreateModal = ({ isOpen, onClose }) => {
 
         console.log('Transformed Data:', transformedData);
         mutate({ payload: transformedData, token: localStorage.getItem('token') })
-        if (isMutateSuccess) {
-            setTimeout(() => {
-                onClose();
-            }, 1000);
-        }
+        
     };
+    const handleClose = () => {
+        reset();
+        onClose();
+      };
+      const [showSuccess, setShowSuccess] = useState(false);
+
+      useEffect(() => {
+        if (isMutateSuccess) {
+          setShowSuccess(true);
+          const timer = setTimeout(() => {
+            handleClose();
+            setShowSuccess(false);
+          }, 1000);
+          return () => clearTimeout(timer);
+        }
+      }, [isMutateSuccess]);
     return (
         <div>
             <Modal motionProps={{
@@ -126,13 +139,13 @@ const CreateModal = ({ isOpen, onClose }) => {
                             <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
                             <ModalBody>
                                 <Form onSubmit={handleSubmit}>
-                                    <Input name="name" type="text" placeholder="နာမည်ရိုက်ပါ" radius='none' />
+                                    <Input name="name" type="text" placeholder="နာမည်ရိုက်ပါ" radius='none' isRequired/>
                                     <Input name="contact" type="text" placeholder="လိပ်စာရိုက်ပါ" radius='none' />
                                     <Autocomplete
                                         validationBehavior="native"
                                         // errorMessage={validation.type == undefined ? "" : "You must select a location"}
                                         // isInvalid={validation.type == undefined ? false : true}
-                                        selectedKey={selectedStateKey.label}
+                                        // selectedKey={selectedStateKey.state?.key || ""}
                                         // onClose={() => setTouchState(true)}
 
                                         name="state"
@@ -252,7 +265,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         >
                                             {isMutatePending ? "Submitting..." : isMutateSuccess ? "Success!" : "Submit"}
                                         </Button>
-                                        {/* {isMutateSuccess && <span className="text-green-600">ခန့်အပ်ခြင်းအောင်မြင်ပါသည်။</span>} */}
+                                        {showSuccess && <span className="text-green-600">ခန့်အပ်ခြင်းအောင်မြင်ပါသည်။</span>}
                                     </ModalFooter>
                                 </Form>
                             </ModalBody>
