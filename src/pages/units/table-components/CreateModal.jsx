@@ -23,7 +23,7 @@ const CreateModal = ({ isOpen, onClose }) => {
     const [states = []] = useAtom(stateAtom);
     const [disctricts = []] = useAtom(districtAtom);
     const [townships = []] = useAtom(townshipAtom);
-    const { positions = [] } = fetchedPositions;
+    const { positions = [] } = fetchedPositions?.data;
     const [selectedStateKey, setSelectedStateKey] = useAtom(selectedCreateStateKeyAtom);
     const [selectedDistrictKey, setSelectedDistrictKey] = useAtom(selectedCreateDistrictKeyAtom);
     const [selectedTownshipKey, setSelectedTownshipKey] = useAtom(selectedCreatedTownshipKeyAtom);

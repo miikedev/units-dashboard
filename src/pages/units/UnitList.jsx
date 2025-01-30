@@ -10,7 +10,7 @@ import { useDisclosure } from "@heroui/react"
 const UnitList = () => {
     const [page,] = useAtom(pageAtom)
     const { data: units, isPending, isSuccess, isError, error } = useUnitsQuery(page)
-    const { data: positions, isSuccess: isPositionSuccess } = usePositionQuery()
+    const { data: positions, isSuccess: isPositionSuccess } = usePositionQuery({token: localStorage.getItem('token')})
     const [fetchedPositions, setFetchPositions] = useAtom(fetchedPositionsAtom);
 
     useEffect(() => {
