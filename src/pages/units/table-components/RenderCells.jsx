@@ -1,7 +1,11 @@
 import { Chip } from "@heroui/react";
-import { EditIcon } from "../icons/EditIcon";
+import { QueryClient } from "@tanstack/react-query";
 import { DeleteIcon } from "../icons/DeleteIcon";
+import { EditIcon } from "../icons/EditIcon";
 import { statusColorMap } from "../UnitTable";
+import { pageAtom } from "../atoms";
+import { useAtom } from "jotai";
+const queryClient = new QueryClient();
 // Function to render the name column
 const renderNameColumn = (cellValue) => {
     return <h1>{cellValue}</h1>;
@@ -42,13 +46,22 @@ const renderStatusColumn = (cellValue) => {
 };
 
 // Function to render the actions column
-const renderActionsColumn = (item) => {
+const renderActionsColumn = ({ _id: unitId }, page, mutate, handleEditClick, prefetchedUnit) => {
+    console.log('item', unitId)
+    console.log('page', page)
+    const handleUnitDelete = (id, page) => {
+        console.log('id', id)
+        console.log('page', page)
+        mutate({ id, page })
+    }
     return (
-        <div className="relative flex items-center justify-start gap-2">
-            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+        <div className="relative flex items-center justify-start gap-2" onMouseEnter={() => prefetchedUnit(unitId)}>
+            <span onClick={() => {
+                handleEditClick(unitId)
+            }} className={queryClient.getQueryData([`units/${unitId}`]) ? 'text-green-500 bg-black cursor-pointer active:opacity-50' : ''}>
                 <EditIcon />
             </span>
-            <span onClick={() => console.log('delete', item._id)} className="text-lg text-danger cursor-pointer active:opacity-50">
+            <span onClick={() => handleUnitDelete(unitId, page)} className="text-lg text-danger-400 cursor-pointer active:opacity-50">
                 <DeleteIcon />
             </span>
         </div>
@@ -56,9 +69,8 @@ const renderActionsColumn = (item) => {
 };
 
 // Main function to render table cells
-export const RenderTableCells = (item, columnKey) => {
+export const RenderTableCells = (item, columnKey, page, mutate, handleEditClick, prefetchedUnit) => {
     const cellValue = item[columnKey];
-
     switch (columnKey) {
         case "name":
             return renderNameColumn(cellValue);
@@ -71,7 +83,7 @@ export const RenderTableCells = (item, columnKey) => {
         case "status":
             return renderStatusColumn(cellValue);
         case "actions":
-            return renderActionsColumn(item);
+            return renderActionsColumn(item, page, mutate, handleEditClick, prefetchedUnit);
         default:
             return cellValue;
     }

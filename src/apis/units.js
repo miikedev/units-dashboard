@@ -16,12 +16,13 @@ export const fetchUnits = async (page=1) => {
 
 // Fetch a single unit by ID  
 export const fetchUnitById = async (id) => {  
-  const url = constructUrl(`/units/${id}`);  
+  const url = constructUrl(`/units/${id}`); 
+  console.log(url) 
   try {  
     const response = IS_PRODUCTION  
       ? await instance.get(url)  
       : await axios.get(url);  
-
+    console.log('fetch unit by id', response.data)
     return response.data;  
   } catch (error) {  
     console.error(`Error fetching unit with ID ${id}:`, error);  
@@ -31,6 +32,7 @@ export const fetchUnitById = async (id) => {
 
 // Create a new unit  
 export const createUnit = async (payload, token) => {  
+  console.log(payload)
   const url = constructUrl(`/units`);  
   try {  
     const response = IS_PRODUCTION  
