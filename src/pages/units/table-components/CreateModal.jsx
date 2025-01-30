@@ -19,11 +19,13 @@ const status = [
 const CreateModal = ({ isOpen, onClose }) => {
     const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
     const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending, reset } = useUnitCreateMutation();
-    console.log('is mutate success', isMutateSuccess);
+    console.log(fetchedPositions)
     const [states = []] = useAtom(stateAtom);
     const [disctricts = []] = useAtom(districtAtom);
     const [townships = []] = useAtom(townshipAtom);
-    const { positions = [] } = fetchedPositions?.data;
+    const positions = fetchedPositions?.data?.positions 
+    ? [...fetchedPositions.data.positions] // Ensure array
+    : [];
     const [selectedStateKey, setSelectedStateKey] = useAtom(selectedCreateStateKeyAtom);
     const [selectedDistrictKey, setSelectedDistrictKey] = useAtom(selectedCreateDistrictKeyAtom);
     const [selectedTownshipKey, setSelectedTownshipKey] = useAtom(selectedCreatedTownshipKeyAtom);
