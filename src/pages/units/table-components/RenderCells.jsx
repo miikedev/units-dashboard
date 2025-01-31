@@ -2,7 +2,7 @@ import { Chip } from "@heroui/react";
 import { QueryClient } from "@tanstack/react-query";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { EditIcon } from "../icons/EditIcon";
-import { statusColorMap } from "../UnitTable";
+import { statusColorMap } from "../unit-table";
 import { pageAtom } from "../atoms";
 import { useAtom } from "jotai";
 const queryClient = new QueryClient();

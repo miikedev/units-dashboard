@@ -5,11 +5,11 @@ import { Button } from "@heroui/button";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
-import PieChart from "./PieChart";
+import PieChart from "./pie-chart";
 
 import { overviewAtom, showStatusAtom } from "@/atoms/overviewAtom";
 import Loading from "@/components/Loading";
-import InactivePositionTable from "./InactivePositionTable";
+import InactivePositionTable from "./inactive-position-table";
 import { useOverviewQuery } from "@/apis/overviewQuery";
 
 const Overview = () => {
