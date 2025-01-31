@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './utils/config'
 import { Route, Routes } from 'react-router'
 import AuthLayout from './layouts/AuthLayout'
 import { Navigate } from 'react-router'
