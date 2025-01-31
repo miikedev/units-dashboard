@@ -54,7 +54,7 @@ const FilterLevel = () => {
                     base: "rounded-none",
                     popoverContent: "rounded-none",
                 }}
-                label="ပြည်နယ်"
+                
                 placeholder="ပြည်နယ်ရွေးချယ်ပါ"
                 radius='none'
             >
@@ -74,7 +74,7 @@ const FilterLevel = () => {
                     base: "rounded-none",
                     popoverContent: "rounded-none",
                 }}
-                label="ခရိုင်"
+                
                 placeholder="ခရိုင်ရွေးချယ်ပါ"
                 radius='none'
             >
@@ -94,8 +94,8 @@ const FilterLevel = () => {
                     base: "rounded-none",
                     popoverContent: "rounded-none",
                 }}
-                label="ခရိုင်"
-                placeholder="ခရိုင်ရွေးချယ်ပါ"
+                
+                placeholder="မြို့နယ်ရွေးချယ်ပါ"
                 radius='none'
             >
                 {(township) => <AutocompleteItem classNames={{

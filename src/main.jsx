@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App.jsx'
 const queryClient = new QueryClient()
 import './index.css'
+import './utils/config.js'
 import {HeroUIProvider} from '@heroui/react'
 createRoot(document.getElementById('root')).render(
   <StrictMode>

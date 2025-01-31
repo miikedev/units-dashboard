@@ -22,4 +22,13 @@ export default defineConfig({
       "@": resolve("./src"),
     },
   },
+  build: {
+    minify: 'terser', // Ensure Terser is used
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove all console.*
+        drop_debugger: true, // Remove debugger statements
+      },
+    },
+  },
 });

@@ -16,7 +16,7 @@ const InactivePositionTable = ({data}) => {
                     <TableCell>{d.name}</TableCell>
                     <TableCell>
                         {d.level == 'state' ? 
-                                    'ပြည်နယ်/တိုင်းဒေသကြီး': 
+                        'ပြည်နယ်/တိုင်းဒေသကြီး': 
                         d.level == 'disctrict'?
                         'ခရိုင်':
                         'မြို့နယ်'
