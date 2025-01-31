@@ -40,7 +40,6 @@ export const createUnit = async (payload, token) => {
         {  
             headers: {  
               Authorization: `Bearer ${token}`,  
-              "Content-Type": "multipart/form-data"
             }, 
           }
       )  
@@ -64,7 +63,6 @@ export const updateUnit = async (id, payload) => {
   console.log(url)
   try {
     const response = IS_PRODUCTION ? await instance.put(url, payload) : await axios.put(url, payload);
-    console.log('update unit', response.data)  // Debugging purposes
     return response.data;
   } catch (error) {
     console.error(`Error updating unit with ID ${id}:`, error);
