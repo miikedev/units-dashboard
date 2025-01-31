@@ -19,14 +19,15 @@ const UnitList = () => {
             setFetchPositions(positions?.positions)
         }
     }, [isPositionSuccess, positions, setFetchPositions])
-    console.log(fetchedPositions)
+
+    // console.log(fetchedPositions)
     // if (isError) {
     //     return <div>Error: {error.message}</div>
     // }
 
     return (
         <div className="">
-            <UnitTable units={units} pagination={units?.pagination} isSuccess={isSuccess} isPending={isPending} />
+            <UnitTable units={units} pagination={units?.pagination} isSuccess={isSuccess} isPending={isPending} isPositionSuccess={isPositionSuccess} />
             {isError && <div>Error: {error.message}</div>}
             <ReactQueryDevtools initialIsOpen="true" />
         </div>

@@ -1,148 +1,211 @@
 [
     {
-        "_id": "67927938940b6c62461b4409",
-        "name": "ကူညီကယ်ဆယ်ရေး တာဝန်ခံ",
-        "level": "township",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4408",
-        "name": "ဆေးဘက်ဆိုင်ရာ တာဝန်ခံ",
-        "level": "township",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43fa",
-        "name": "ဒုတာဝန်ခံ (စစ်ရေး)",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43f9",
-        "name": "တာဝန်ခံ",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43f6",
-        "name": "ဒုတာဝန်ခံ (စစ်ရေး)",
-        "level": "state",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4406",
-        "name": "သတင်း တာဝန်ခံ",
-        "level": "township",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4405",
-        "name": "ထောက်/ပို့ တာဝန်ခံ",
-        "level": "township",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4404",
+        "_id": "6795eaa3ae197356d6a8ead1",
         "name": "လက်နက်/ စုဆောင်းရေး တာဝန်ခံ",
         "level": "township",
         "status": true,
         "__v": 0
     },
     {
-        "_id": "67927938940b6c62461b4401",
-        "name": "ဒုတာဝန်ခံ",
+        "_id": "6795eaa3ae197356d6a8eadf",
+        "name": "ကျန်းမာရေးတာဝန်ခံ",
+        "level": "township",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eade",
+        "name": "လူမှုစီမံကိန်း",
+        "level": "township",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eadd",
+        "name": "ကာကွယ်ရေးအဖွဲ့",
+        "level": "township",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eadc",
+        "name": "စွပ်စွဲမှုအဖွဲ့",
+        "level": "district",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eadb",
+        "name": "လူမှုရေးတာဝန်ခံ",
+        "level": "district",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eada",
+        "name": "ဘဏ္ဍာရေးအကြံဉာဏ်",
+        "level": "district",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead9",
+        "name": "စီမံခန့်ခွဲရေး",
+        "level": "state",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead8",
+        "name": "လုံခြုံရေး၊ လေ့ကျင့်ရေး",
+        "level": "state",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead7",
+        "name": "အသင်း မူးယစ်ဆိုင်ရာ",
+        "level": "state",
+        "status": false,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead6",
+        "name": "ကူညီကယ်ဆယ်ရေး တာဝန်ခံ",
         "level": "township",
         "status": true,
         "__v": 0
     },
     {
-        "_id": "67927938940b6c62461b4400",
-        "name": "တာဝန်ခံ",
+        "_id": "6795eaa3ae197356d6a8ead5",
+        "name": "ဆေးဘက်ဆိုင်ရာ တာဝန်ခံ",
         "level": "township",
         "status": true,
         "__v": 0
     },
     {
-        "_id": "67927937940b6c62461b43fc",
-        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43fe",
-        "name": "ထောက်ပံ့ပို့ဆောင်ရေး တာဝန်ခံ",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4402",
-        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
-        "level": "township",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43fd",
-        "name": "လက်နက်ထုတ်လုပ်ရေးနှင့် စစ်လက်နက်စုဆောင်ရေး တာဝန်ခံ",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43fb",
-        "name": "ဒုတာဝန်ခံ (စည်းရုံးရေး)",
-        "level": "district",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43f8",
-        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
-        "level": "state",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43f7",
-        "name": "ဒုတာဝန်ခံ (စည်းရိုးရေး)",
-        "level": "state",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927937940b6c62461b43f5",
-        "name": "တာဝန်ခံ",
-        "level": "state",
-        "status": true,
-        "__v": 0
-    },
-    {
-        "_id": "67927938940b6c62461b4407",
+        "_id": "6795eaa3ae197356d6a8ead4",
         "name": "ဆက်သွယ်ရေး တာဝန်ខန်",
         "level": "township",
         "status": true,
         "__v": 0
     },
     {
-        "_id": "67927938940b6c62461b4403",
+        "_id": "6795eaa3ae197356d6a8ead3",
+        "name": "သတင်း တာဝန်ခံ",
+        "level": "township",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead2",
+        "name": "ထောက်/ပို့ တာဝန်ခံ",
+        "level": "township",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac2",
+        "name": "တာဝန်ခံ",
+        "level": "state",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8ead0",
         "name": "စုဖွဲ့၊ လေ့ကျင့်‌ရေး တာဝန်ခံ",
         "level": "township",
         "status": true,
         "__v": 0
     },
     {
-        "_id": "67927938940b6c62461b43ff",
+        "_id": "6795eaa3ae197356d6a8eacf",
+        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
+        "level": "township",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eace",
+        "name": "ဒုတာဝန်ခံ",
+        "level": "township",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eacd",
+        "name": "တာဝန်ခံ",
+        "level": "township",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eacc",
         "name": "သတင်းတာဝန်ခံ",
         "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eacb",
+        "name": "ထောက်ပံ့ပို့ဆောင်ရေး တာဝန်ခံ",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eaca",
+        "name": "လက်နက်ထုတ်လုပ်ရေးနှင့် စစ်လက်နက်စုဆောင်ရေး တာဝန်ခံ",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac9",
+        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac8",
+        "name": "ဒုတာဝန်ခံ (စည်းရုံးရေး)",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac7",
+        "name": "ဒုတာဝန်ခံ (စစ်ရေး)",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac6",
+        "name": "တာဝန်ခံ",
+        "level": "district",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac5",
+        "name": "ဘဏ္ဍာရေး တာဝန်ခံ",
+        "level": "state",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac4",
+        "name": "ဒုတာဝန်ခံ (စည်းရုံးရေး)",
+        "level": "state",
+        "status": true,
+        "__v": 0
+    },
+    {
+        "_id": "6795eaa3ae197356d6a8eac3",
+        "name": "ဒုတာဝန်ခံ (စစ်ရေး)",
+        "level": "state",
         "status": true,
         "__v": 0
     }

@@ -43,7 +43,7 @@ export const statusColorMap = {
 };
 const queryClient = new QueryClient()
 
-export default function UnitTable({ units, isSuccess, isPending, pagination }) {
+export default function UnitTable({ units, isSuccess, isPending, pagination, isPositionSuccess }) {
     const [selectionBehavior, setSelectionBehavior] = useState(false);
     const [page, setPage] = useAtom(pageAtom)
     const { isOpen: editIsOpen, onOpen: editOnOpen, onClose: editOnClose } = useDisclosure();
@@ -169,7 +169,7 @@ export default function UnitTable({ units, isSuccess, isPending, pagination }) {
                 <Radio value="toggle">Toggle</Radio>
                 <Radio value="replace">Replace</Radio>
             </RadioGroup>
-            <EditModal id={editedId} isOpen={editIsOpen} onClose={editOnClose} />
+            {isPositionSuccess && <EditModal id={editedId} isOpen={editIsOpen} onClose={editOnClose} />}
 
         </div>
     );
