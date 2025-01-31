@@ -36,17 +36,19 @@ export const createUnit = async (payload, token) => {
   const url = constructUrl(`/units`);  
   try {  
     const response = IS_PRODUCTION  
-      ? await instance.post(url, payload,
+      ? await instance.post(url, JSON.stringify(payload),
         {  
             headers: {  
-              Authorization: `Bearer ${token}`,  
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json"  
             }, 
           }
       )  
-      : await axios.post(url, payload,
+      : await axios.post(url, JSON.stringify(payload),
         {  
             headers: {  
-              Authorization: `Bearer ${token}`,  
+              Authorization: `Bearer ${token}`, 
+              "Content-Type": "application/json" 
             }, 
           }
       );  

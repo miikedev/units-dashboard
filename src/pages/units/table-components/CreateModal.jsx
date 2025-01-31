@@ -163,7 +163,6 @@ const CreateModal = ({ isOpen, onClose }) => {
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ErrorBoundary>
                                 <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
                                 <ModalBody>
                                     <Form onSubmit={handleSubmit}>
@@ -297,7 +296,6 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         </ModalFooter>
                                     </Form>
                                 </ModalBody>
-                            </ErrorBoundary>
                         </>
                     )}
                 </ModalContent>
