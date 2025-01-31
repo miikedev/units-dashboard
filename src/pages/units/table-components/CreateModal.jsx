@@ -59,6 +59,20 @@ const CreateModal = ({ isOpen, onClose }) => {
     const isValid = selectedStateKey.level === 'state';
     console.log(isValid)
 
+    console.log('selected key', selectedStateKey, selectedDistrictKey, selectedTownshipKey)
+    // Add this function to determine current level
+    const getCurrentLevel = () => {
+        if (selectedTownshipKey.level === 'township') return 'township';
+        if (selectedDistrictKey.level === 'district') return 'district';
+        if (selectedStateKey.level === 'state') return 'state';
+        return null;
+    };
+    console.log('get current level', getCurrentLevel())
+    // Filter positions based on current level
+    const filteredPositions = fetchedPositions.filter(position =>
+        position.level === getCurrentLevel()
+    );
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.currentTarget));
@@ -99,24 +113,31 @@ const CreateModal = ({ isOpen, onClose }) => {
 
         console.log('Transformed Data:', transformedData);
         mutate({ payload: transformedData, token: localStorage.getItem('token') })
-
     };
     const handleClose = () => {
         reset();
         onClose();
+
+        // Reset all selections to initial state
+        setSelectedStateKey({ state: null, level: null });
+        setSelectedDistrictKey({ district: null, level: null });
+        setSelectedTownshipKey({ township: null, level: null });
+
+        // Clear any validation messages
+        setValidation({});
     };
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         if (isMutateSuccess) {
-            setShowSuccess(true);
-            const timer = setTimeout(() => {
-                handleClose();
-                setShowSuccess(false);
-            }, 1000);
-            return () => clearTimeout(timer);
+          setShowSuccess(true);
+          const timer = setTimeout(() => {
+            handleClose(); // Use the centralized close/reset function
+            setShowSuccess(false);
+          }, 1000);
+          return () => clearTimeout(timer);
         }
-    }, [isMutateSuccess]);
+      }, [isMutateSuccess]);
     return (
         <div>
             <Modal motionProps={{
@@ -224,7 +245,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                             // isInvalid={isValid || !touch ? false : true}
                                             name="position_id"
                                             className="max-w-xs rounded-none"
-                                            defaultItems={fetchedPositions}
+                                            defaultItems={filteredPositions}
                                             classNames={{
                                                 listboxWrapper: "rounded-none",
                                                 listbox: "rounded-none",
