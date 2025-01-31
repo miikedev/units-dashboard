@@ -17,7 +17,7 @@ const status = [
 ]
 const EditModal = ({ isOpen, onClose, id }) => {
     const [fetchedPositions = [],] = useAtom(fetchedPositionsAtom)
-    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending } = useUnitUpdateMutation();
+    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending, reset } = useUnitUpdateMutation();
     const { data: editedData, isSuccess: editedDataSuccess } = useUnitFetchByIdQuery(id)
     const [states = [],] = useAtom(stateAtom)
     const [disctricts = [],] = useAtom(districtAtom)
@@ -90,6 +90,19 @@ const EditModal = ({ isOpen, onClose, id }) => {
         console.log('Transformed Data:', transformedData);
         mutate({ payload: transformedData, id, token: localStorage.getItem('token') })
     };
+    const handleClose = () => {
+        reset();
+        onClose();
+
+        // Reset all selections to initial state
+        setSelectedStateKey({ state: null, level: null });
+        setSelectedDistrictKey({ district: null, level: null });
+        setSelectedTownshipKey({ township: null, level: null });
+
+        // Clear any validation messages
+        setValidation({});
+    };
+
     const [showSuccess, setShowSuccess] = useState(false);
     
           useEffect(() => {
