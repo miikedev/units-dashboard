@@ -1,4 +1,4 @@
-import geo from '../assets/state-and-township.json'
+import geo from '../assets/geo.json'
 export const states = () => {
     return geo.map(g => g.mm)
 }
