@@ -1,5 +1,5 @@
 import { useMutation, useQuery, QueryClient, useQueryClient } from '@tanstack/react-query'
-import { createUnit, fetchUnits, deleteUnit, fetchUnitById } from './units'
+import { createUnit, fetchUnits, deleteUnit, fetchUnitById, updateUnit } from './units'
 const queryClient = new QueryClient();
 export const useUnitsQuery = (currentPage) => {
   return useQuery({

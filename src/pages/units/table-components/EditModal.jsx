@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { useState } from 'react'
 
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
-import { useUnitCreateMutation, useUnitFetchByIdQuery } from "@/apis/unitsQuery";
+import { useUnitCreateMutation, useUnitFetchByIdQuery, useUnitUpdateMutation } from "@/apis/unitsQuery";
 
 // const positions = [
 //     { key: "1", label: "Software Engineer" },
@@ -17,13 +17,12 @@ const status = [
     { key: "2", label: "မခန့်အပ်သေး" }
 ]
 const EditModal = ({ isOpen, onClose, id }) => {
-    const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
-    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending } = useUnitCreateMutation();
+    const [fetchedPositions = [],] = useAtom(fetchedPositionsAtom)
+    const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending } = useUnitUpdateMutation();
     const { data: editedData, isSuccess: editedDataSuccess } = useUnitFetchByIdQuery(id)
-    const { positions } = fetchedPositions;
-    const [states,] = useAtom(stateAtom)
-    const [disctricts,] = useAtom(districtAtom)
-    const [townships,] = useAtom(townshipAtom)
+    const [states = [],] = useAtom(stateAtom)
+    const [disctricts = [],] = useAtom(districtAtom)
+    const [townships = [],] = useAtom(townshipAtom)
     const [selectedStateKey, setSelectedStateKey] = useAtom(selectedCreateStateKeyAtom);
     const [selectedDistrictKey, setSelectedDistrictKey] = useAtom(selectedCreateDistrictKeyAtom);
     const [selectedTownshipKey, setSelectedTownshipKey] = useAtom(selectedCreatedTownshipKeyAtom);
@@ -67,7 +66,7 @@ const EditModal = ({ isOpen, onClose, id }) => {
         const selectedState = states?.find(s => s.key === formData.state);
         const selectedDistrict = disctricts?.find(d => d.key === formData?.district);
         const selectedTownship = townships?.find(t => t.key === formData?.township);
-        const { _id: selectedPositionId } = positions?.find(p => p?.name === formData?.position_id);
+        const { _id: selectedPositionId } = fetchedPositions?.find(p => p?.name === formData?.position_id);
         console.log('selectedPosition id', selectedPositionId);
         // Validate selections
         console.log('validation message', validation)
@@ -90,7 +89,7 @@ const EditModal = ({ isOpen, onClose, id }) => {
         };
 
         console.log('Transformed Data:', transformedData);
-        mutate({ payload: transformedData, token: localStorage.getItem('token') })
+        mutate({ payload: transformedData, id, token: localStorage.getItem('token') })
         if (isMutateSuccess) {
             setTimeout(() => {
                 onClose();
@@ -119,7 +118,7 @@ const EditModal = ({ isOpen, onClose, id }) => {
                     },
                 },
             }} radius='none' backdrop={"blur"} isOpen={isOpen} onClose={onClose}>
-                {editedDataSuccess &&<ModalContent>
+                {editedDataSuccess && <ModalContent>
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
@@ -206,7 +205,7 @@ const EditModal = ({ isOpen, onClose, id }) => {
                                         defaultSelectedKey={editedData?.position_id?._id}
                                         name="position_id"
                                         className="max-w-xs rounded-none"
-                                        defaultItems={positions}
+                                        defaultItems={fetchedPositions}
                                         classNames={{
                                             listboxWrapper: "rounded-none",
                                             listbox: "rounded-none",

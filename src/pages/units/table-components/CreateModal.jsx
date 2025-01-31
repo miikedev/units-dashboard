@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteItem, Button, Form, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { useAtom } from 'jotai';
 import { useState, useEffect, Component } from 'react'
-
+import positionsMan from '../../../assets/positions.json'
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
 import { useUnitCreateMutation } from "@/apis/unitsQuery";
 
@@ -17,9 +17,9 @@ const status = [
     { key: "2", label: "မခန့်အပ်သေး" }
 ]
 const CreateModal = ({ isOpen, onClose }) => {
-    const [fetchedPositions,] = useAtom(fetchedPositionsAtom)
+    const [fetchedPositions = [],] = useAtom(fetchedPositionsAtom)
     const { mutate, isSuccess: isMutateSuccess, isPending: isMutatePending, reset } = useUnitCreateMutation();
-    console.log(fetchedPositions)
+    console.log('fetchedPositions', fetchedPositions)
     const [states = []] = useAtom(stateAtom);
     const [disctricts = []] = useAtom(districtAtom);
     const [townships = []] = useAtom(townshipAtom);

@@ -61,8 +61,10 @@ export const createUnit = async (payload, token) => {
 // Update an existing unit  
 export const updateUnit = async (id, payload) => {
   const url = constructUrl(`/units/${id}`);
+  console.log(url)
   try {
     const response = IS_PRODUCTION ? await instance.put(url, payload) : await axios.put(url, payload);
+    console.log('update unit', response.data)  // Debugging purposes
     return response.data;
   } catch (error) {
     console.error(`Error updating unit with ID ${id}:`, error);
