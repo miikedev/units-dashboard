@@ -1,7 +1,6 @@
 import { Autocomplete, AutocompleteItem, Button, Form, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import { useAtom } from 'jotai';
-import { useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import { districtAtom, fetchedPositionsAtom, levelDetailsAtom, selectedCreateDistrictKeyAtom, selectedCreatedTownshipKeyAtom, selectedCreateStateKeyAtom, stateAtom, townshipAtom } from '../atoms';
 import { useUnitCreateMutation, useUnitFetchByIdQuery, useUnitUpdateMutation } from "@/apis/unitsQuery";
 
@@ -90,12 +89,19 @@ const EditModal = ({ isOpen, onClose, id }) => {
 
         console.log('Transformed Data:', transformedData);
         mutate({ payload: transformedData, id, token: localStorage.getItem('token') })
-        if (isMutateSuccess) {
-            setTimeout(() => {
-                onClose();
-            }, 1000);
-        }
     };
+    const [showSuccess, setShowSuccess] = useState(false);
+    
+          useEffect(() => {
+            if (isMutateSuccess) {
+              setShowSuccess(true);
+              const timer = setTimeout(() => {
+                handleClose();
+                setShowSuccess(false);
+              }, 1000);
+              return () => clearTimeout(timer);
+            }
+          }, [isMutateSuccess]);
     return (
         <div>
             <Modal motionProps={{
@@ -254,7 +260,7 @@ const EditModal = ({ isOpen, onClose, id }) => {
                                         >
                                             {isMutatePending ? "Submitting..." : isMutateSuccess ? "Success!" : "Submit"}
                                         </Button>
-                                        {/* {isMutateSuccess && <span className="text-green-600">ခန့်အပ်ခြင်းအောင်မြင်ပါသည်။</span>} */}
+                                        {showSuccess && <span className="text-green-600">ခန့်အပ်ခြင်းအောင်မြင်ပါသည်။</span>}
                                     </ModalFooter>
                                 </Form>
                             </ModalBody>
