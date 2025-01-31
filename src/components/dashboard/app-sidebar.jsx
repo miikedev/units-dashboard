@@ -45,6 +45,11 @@ const data = {
         url: "/dashboard/units",
         icon: Frame,
     },
+    {
+      name: "ရာထူးခြုံငုံသုံးသပ်ခြင်း",
+      url: "/dashboard/positions",
+      icon: Frame,
+    }
 ],
 //   navMain: [
 //     {
@@ -64,7 +69,7 @@ const data = {
 
 export function AppSidebar({ ...props }) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="z-30">
       <SidebarHeader>
       <div className="flex items-center gap-4">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">

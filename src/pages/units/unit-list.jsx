@@ -4,8 +4,7 @@ import Loading from "@/components/Loading"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
 import { fetchedPositionsAtom, pageAtom } from "./atoms"
-import UnitTable from "./UnitTable"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import UnitTable from "./unit-table"
 import { useDisclosure } from "@heroui/react"
 const UnitList = () => {
     const [page,] = useAtom(pageAtom)
@@ -29,7 +28,6 @@ const UnitList = () => {
         <div className="">
             <UnitTable units={units} pagination={units?.pagination} isSuccess={isSuccess} isPending={isPending} isPositionSuccess={isPositionSuccess} />
             {isError && <div>Error: {error.message}</div>}
-            <ReactQueryDevtools initialIsOpen="true" />
         </div>
     )
 }

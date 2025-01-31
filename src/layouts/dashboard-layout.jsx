@@ -1,7 +1,7 @@
 
 import { AppSidebar } from "@/components/dashboard/app-sidebar"
 import { Separator } from "@/components/ui/separator"
-import { DashboardNav } from "./DashboardNav"
+import { DashboardNav } from "./dashboard-nav"
 import { Outlet } from "react-router"
 // import { Separator } from "@/components/ui/separator"
 import {
@@ -9,6 +9,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 export default function DashboardLayout() {
     return (
         <SidebarProvider>
@@ -30,10 +31,11 @@ export default function DashboardLayout() {
                     <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
                 </div> */}
                 <DashboardNav />
-                <div className="flex flex-1 flex-col gap-4 p-4">
+                <div className="flex flex-1 flex-col gap-4 z-50">
                     <Outlet />
                 </div>
             </SidebarInset>
+            <ReactQueryDevtools initialIsOpen="true" />
         </SidebarProvider>
     )
 }
