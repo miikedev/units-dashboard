@@ -82,100 +82,90 @@ const PositionListBeta = () => {
 
     useEffect(() => {
         if (!data) return;
-      
+
         // Helper function to map positions into an object
         const mapPositionsToObject = (positions) =>
-          positions.reduce((acc, position) => {
-            acc[position.positionName] = position.status;
-            return acc;
-          }, {});
-      
+            positions.reduce((acc, position) => {
+                acc[position.positionName] = position.status;
+                return acc;
+            }, {});
+
         // Helper function to generate rows based on the selected level
         const generateRows = (levelData, level) => {
-          return levelData?.map((item, index) => {
-            const positionsObject = mapPositionsToObject(item.positions);
-            const baseRow = { id: index + 1 };
-      
-            if (level === 'state') {
-              return { ...baseRow, state: item.state, ...positionsObject };
-            } else if (level === 'district') {
-              return { ...baseRow, state: item.state, district: item.district, ...positionsObject };
-            } else if (level === 'township') {
-              return { ...baseRow, state: item.state, district: item.district, township: item.township, ...positionsObject };
-            }
-            return baseRow;
-          });
+            return levelData.map((item, index) => {
+                const positionsObject = mapPositionsToObject(item.positions);
+                const baseRow = { id: index + 1 };
+
+                if (level === 'state') {
+                    return { ...baseRow, state: item.state, ...positionsObject };
+                } else if (level === 'district') {
+                    return { ...baseRow, state: item.state, district: item.district, ...positionsObject };
+                } else if (level === 'township') {
+                    return { ...baseRow, state: item.state, district: item.district, township: item.township, ...positionsObject };
+                }
+                return baseRow;
+            });
         };
-      
+
         // Helper function to generate columns based on the selected level
         const generateColumns = (level) => {
-          const baseColumns = [
-            { key: "id", label: "စဥ်" },
-            { key: "state", label: "ပြည်နယ်" },
-          ];
-      
-          if (level === 'district') {
-            baseColumns.push({ key: "district", label: "ခရိုင်" });
-          } else if (level === 'township') {
-            baseColumns.push({ key: "district", label: "ခရိုင်" }, { key: "township", label: "မြို့နယ်" });
-          }
-      
-          return baseColumns;
+            const baseColumns = [
+                { key: "id", label: "စဥ်" },
+                { key: "state", label: "ပြည်နယ်" },
+            ];
+
+            if (level === 'district') {
+                baseColumns.push({ key: "district", label: "ခရိုင်" });
+            } else if (level === 'township') {
+                baseColumns.push({ key: "district", label: "ခရိုင်" }, { key: "township", label: "မြို့နယ်" });
+            }
+
+            return baseColumns;
         };
-      
+
         // Main logic to filter positions and set rows/columns
         const filterPositions = () => {
-          let rows = [];
-          let columns = [];
-      
-          switch (selectedLevel) {
-            case 'state':
-              rows = generateRows(statesData[0], 'state');
-              columns = generateColumns('state');
-              break;
-      
-            case 'district':
-              rows = generateRows(districtsData[0], 'district');
-              columns = generateColumns('district');
-              break;
-      
-            case 'township':
-              rows = generateRows(townshipsData[0], 'township');
-              columns = generateColumns('township');
-              break;
-      
-            default:
-              break;
-          }
-      
-          // Generate column headers dynamically from data.positions
-          const dynamicColumns = data?.positions
-            .filter((d) => d.level === selectedLevel)
-            .map((d) => ({ key: d.name, label: d.name }));
-      
-          columns = [...columns, ...dynamicColumns];
-      
-          // Sort rows by the "state" key alphabetically
-          rows?.sort((a, b) => {
-            const stateA = a.state || ''; // Fallback to empty string if undefined
-            const stateB = b.state || '';
-            return stateA.localeCompare(stateB); // Sort alphabetically
-          });
-      
-          // Reassign sequential IDs after sorting
-          rows = rows?.map((row, index) => ({
-            ...row,
-            id: index + 1, // Reassign IDs starting from 1
-          }));
-      
-          // Update state with rows and columns
-          setRows(rows);
-          setColumns(columns);
-          setSelectedPositions(rows);
+            let rows = [];
+            let columns = [];
+
+            switch (selectedLevel) {
+                case 'state':
+                    rows = generateRows(statesData[0], 'state');
+                    columns = generateColumns('state');
+                    break;
+
+                case 'district':
+                    rows = generateRows(districtsData[0], 'district');
+                    columns = generateColumns('district');
+                    break;
+
+                case 'township':
+                    rows = generateRows(townshipsData[0], 'township');
+                    columns = generateColumns('township');
+                    break;
+
+                default:
+                    break;
+            }
+
+            // Generate column headers dynamically from data.positions
+            const dynamicColumns = data.positions
+                .filter((d) => d.level === selectedLevel)
+                .map((d) => ({ key: d.name, label: d.name }));
+
+            columns = [...columns, ...dynamicColumns];
+            rows.sort((a, b) => {
+                const stateA = a.state || ''; // Fallback to empty string if undefined
+                const stateB = b.state || '';
+                return stateA.localeCompare(stateB); // Sort alphabetically
+              });
+            // Update state with rows and columns
+            setRows(rows.map((row, index) => ({ ...row, id: index + 1 })));
+            setColumns(columns);
+            setSelectedPositions(rows);
         };
-      
         filterPositions();
-      }, [selectedLevel, data, statesData, districtsData, townshipsData, isSuccess]);
+    }, [selectedLevel, data, statesData, districtsData, townshipsData]);
     console.log('selected level', selectedLevel)
     console.log('positions rows', rows)
     console.log('selected columns', columns)
