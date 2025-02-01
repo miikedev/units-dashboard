@@ -78,6 +78,9 @@ export default function UnitTable({ units, isSuccess, isPending, pagination, isP
         editOnOpen()
     }
     console.log('edited id', editedId)
+    console.log('fetch units', units)
+    console.log('current page', page)
+    console.log('pagination', pagination)
     return (
         <div className="flex flex-col gap-3 rounded-none">
             <FilterCard selectionBehavior={selectionBehavior} setSelectionBehavior={setSelectionBehavior} />
@@ -143,10 +146,11 @@ export default function UnitTable({ units, isSuccess, isPending, pagination, isP
                         </TableRow>
                     )}
                 </TableBody> */}
-                <TableBody items={units?.data}>
+                <TableBody items={units?.data || []}>
+                {/* <TableBody items={[]}> */}
                     {(item) => (
                         <TableRow key={item.code}>
-                            {(columnKey) => <TableCell>{renderCell(item, columnKey, page, mutate, handleEditClick, prefetchedUnit)}</TableCell>}
+                            {(columnKey) => <TableCell className="">{renderCell(item, columnKey, page, mutate, handleEditClick, prefetchedUnit)}</TableCell>}
                         </TableRow>
                     )}
                 </TableBody>
