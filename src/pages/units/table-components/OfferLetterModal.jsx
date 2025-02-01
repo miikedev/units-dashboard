@@ -24,28 +24,7 @@ const OfferLetterModal = ({ isOpen, onClose }) => {
                             <ModalHeader className="flex flex-col gap-1">ခန့်အပ်ရန်</ModalHeader>
                             <ModalBody>
                                 <Form className='h-[300px]'>
-                                    <Popover className="z-10">
-                                        <PopoverTrigger asChild>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-[240px] justify-start text-left font-normal",
-                                                    !date && "text-muted-foreground"
-                                                )}
-                                            >
-                                                <CalendarIcon />
-                                                {date ? format(date, "PPP") : <span>Pick a date</span>}
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-auto p-0" align="start">
-                                            <Calendar
-                                                mode="single"
-                                                selected={date}
-                                                onSelect={setDate}
-                                                initialFocus
-                                            />
-                                        </PopoverContent>
-                                    </Popover>
+                                    <Calendar showMonthAndYearPickers aria-label="Date (Show Month and Year Picker)" />;
                                     <Input type="file" radius='none' />
                                     <Button radius="none" className="hover:bg-red-500 hover:text-white" color="blue" variant="light">
                                         အတည်ပြုပါ

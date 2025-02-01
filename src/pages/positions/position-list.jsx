@@ -100,17 +100,26 @@ const PositionList = () => {
           setRows(states().map((s, i) => ({ id: i + 1, "state": s })));
           // .unshift({ key: 'state', label: 'ပြည်နယ်' })
           let s = ((data.positions.filter(d => d.level === 'state')).map(d => ({ key: d.name, label: d.name })))
-          s.unshift({ key: 'state', label: 'ပြည်နယ်' });
+          s.unshift({
+      key: "id",
+      label: "စဥ်",
+    },{ key: 'state', label: 'ပြည်နယ်' });
           return s;
         case 'district':
           setRows(districts().map((s,i) => ({ id: i + 1, "state": s.state, "district": s.district })));
           let d = ((data.positions.filter(d => d.level === 'district')).map(d => ({ key: d.name, label: d.name })))
-          d.unshift({ key: 'state', label: 'ပြည်နယ်' }, { key: 'district', label: 'ခရိုင်' });
+          d.unshift({
+      key: "id",
+      label: "စဥ်",
+    },{ key: 'state', label: 'ပြည်နယ်' }, { key: 'district', label: 'ခရိုင်' });
           return d;
         case 'township':
           setRows(townships().map((s,i) => ({ id: i + 1, "state": s.state, "district": s.district , "township": s.township})))
           let t = ((data.positions.filter(d => d.level === 'township')).map(d => ({ key: d.name, label: d.name })))
-          t.unshift({ key: 'state', label: 'ပြည်နယ်' }, { key: 'district', label: 'ခရိုင်' }, { key: 'township', label: 'မြို့နယ်' });
+          t.unshift({
+      key: "id",
+      label: "စဥ်",
+    },{ key: 'state', label: 'ပြည်နယ်' }, { key: 'district', label: 'ခရိုင်' }, { key: 'township', label: 'မြို့နယ်' });
           return t;
         default:
           return [];
@@ -118,28 +127,26 @@ const PositionList = () => {
     };
     const data2 = filterPositions();
     console.log('data2', data2)
-    setColumns([{
-      key: "id",
-      label: "စဥ်",
-    }, ...data2])
+    setColumns([...data2])
     setSelectedPositions(filterPositions());
   }, [selectedLevel, data]);
-  console.log('selected positions', selectedPosition)
+  console.log('selected level', selectedLevel)
   return (
     <div className='z-50 bg-white'>
+      <div className='flex w-full items-end mt-3 justify-between'>
       <Autocomplete
-        // radius='none'
+        radius='none'
         defaultSelectedKey="state"
-        className="max-w-xs ml-5"
+        className={selectedLevel ? 'max-w-xs ml-5' : 'max-w-xs ml-5 ring-1 ring-danger-100' } 
         defaultItems={levels}
         placeholder="နေရာရွေးပါ"
         onSelectionChange={(key) => setSelectedLevel(key)}
-        // classNames={{
-        //   listboxWrapper: "rounded-none",
-        //   listbox: "rounded-none",
-        //   base: "rounded-none",
-        //   popoverContent: "rounded-none",
-        // }}
+        classNames={{
+          listboxWrapper: "rounded-none",
+          listbox: "rounded-none",
+          base: "rounded-none",
+          popoverContent: "rounded-none",
+        }}
         aria-label='နေရာရွးရန်'
       >
         {(item) => <AutocompleteItem classNames={{
@@ -148,6 +155,8 @@ const PositionList = () => {
           list: "rounded-none"
         }} key={item.key}>{item.label}</AutocompleteItem>}
       </Autocomplete>
+      {!selectedLevel && <span className='mr-5 text-[1rem] text-opacity-75 font-bold text-red-500'>Please Select a Location!</span>}
+      </div>
       <div className="w-full overflow-x-auto">
         <Table className='mt-3 min-w-full' radius='none' aria-label="Example static collection table">
           <TableHeader
