@@ -17,9 +17,9 @@ const renderContactColumn = (cellValue) => {
 };
 
 // Function to render the position_id column
-const renderPositionColumn = (cellValue) => {
-    return <h1>{cellValue.name}</h1>;
-};
+// const renderPositionColumn = (cellValue) => {
+//     return <h1>{cellValue.name}</h1>;
+// };
 
 // Function to render the level_details column
 const renderLocationColumn = (cellValue) => {
@@ -76,8 +76,8 @@ export const RenderTableCells = (item, columnKey, page, mutate, handleEditClick,
             return renderNameColumn(cellValue);
         case "contact":
             return renderContactColumn(cellValue);
-        case "position_id":
-            return renderPositionColumn(cellValue);
+        // case "position_id":
+        //     return renderPositionColumn(cellValue);
         case "level_details":
             return renderLocationColumn(cellValue);
         case "status":

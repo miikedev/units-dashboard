@@ -6,28 +6,30 @@ import { useEffect } from "react"
 import { fetchedPositionsAtom, pageAtom } from "./atoms"
 import UnitTable from "./unit-table"
 import { useDisclosure } from "@heroui/react"
+
 const UnitList = () => {
     const [page,] = useAtom(pageAtom)
     const { data: units, isPending, isSuccess, isError, error } = useUnitsQuery(page)
     const { data: positions, isSuccess: isPositionSuccess } = usePositionQuery({token: localStorage.getItem('token')})
-    const [fetchedPositions, setFetchPositions] = useAtom(fetchedPositionsAtom);
+    const [fetchPositions, setFetchPositions] = useAtom(fetchedPositionsAtom);
 
     useEffect(() => {
-        console.log('positions', positions)
         if (isPositionSuccess) {
-            setFetchPositions(positions?.positions)
+            setFetchPositions(positions?.positions ?? [])
         }
     }, [isPositionSuccess, positions, setFetchPositions])
 
-    // console.log(fetchedPositions)
+    console.log('isSuccess', isSuccess)
     // if (isError) {
     //     return <div>Error: {error.message}</div>
     // }
 
+    if (isPending) <Loading />
     return (
         <div className="">
-            <UnitTable units={units} pagination={units?.pagination} isSuccess={isSuccess} isPending={isPending} isPositionSuccess={isPositionSuccess} />
             {isError && <div>Error: {error.message}</div>}
+            {/* {isSuccess && units.length <= 0 && <h1>No Data!</h1>} */}
+            {/* {isSuccess && <UnitTable units={units} pagination={units?.pagination} isSuccess={isSuccess} isPending={isPending} isPositionSuccess={isPositionSuccess} />} */}
         </div>
     )
 }

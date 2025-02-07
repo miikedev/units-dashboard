@@ -39,7 +39,8 @@ export function NavUser({
   const { isMobile } = useSidebar()
   const handleLogout = async() => {
     const authToken = localStorage.getItem('token');
-    await fetchLogout({token:authToken});
+    const refreshToken = localStorage.getItem('refreshToken');
+    await fetchLogout({token:authToken, refreshToken});
     localStorage.removeItem('token')
     navigate('/login');
   }

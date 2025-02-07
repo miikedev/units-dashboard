@@ -1,27 +1,18 @@
-import { constructUrl, instance, IS_PRODUCTION, axios } from ".";  
+import { constructUrl, api } from ".";  
 
 // Fetch all units  
 export const fetchPositions = async (token) => {  
     console.log(token)
     const url = constructUrl(`/positions`);  
     try {  
-      const response = IS_PRODUCTION  
-      ? await instance.get(url,
+      const response = await api.get(url,
         {  
             headers: {  
               Authorization: `Bearer ${token}`,  
               "Content-Type": "multipart/form-data"
             }, 
           }
-      )  
-      : await axios.get(url,
-        {  
-            headers: {  
-              Authorization: `Bearer ${token}`,  
-            }, 
-          }
-      ); 
-      console.log(response?.data) 
+      ) 
     return response?.data;   
     } catch (error) {  
       console.error(`Error fetching positions:`, error.message);  
@@ -32,23 +23,14 @@ export const fetchPositionsByLevel   = async (level,token) => {
   console.log(token)
   const url = constructUrl(`/positions-by-level/${level}`);  
   try {  
-    const response = IS_PRODUCTION  
-    ? await instance.get(url,
+    const response =  await api.get(url,
       {  
           headers: {  
             Authorization: `Bearer ${token}`,  
             "Content-Type": "multipart/form-data"
           }, 
         }
-    )  
-    : await axios.get(url,
-      {  
-          headers: {  
-            Authorization: `Bearer ${token}`,  
-          }, 
-        }
-    ); 
-    console.log(response?.data) 
+    ) 
   return response?.data;   
   } catch (error) {  
     console.error(`Error fetching positions:`, error.message);  
@@ -65,10 +47,9 @@ export const fetchAllPositionsByAllLevels = async (token) => {
     const urls = levels.map((level) => constructUrl(`/positions-by-level/${level}`));
 
     // Fetch data for all levels concurrently using Promise.all
-    const responses = IS_PRODUCTION
-      ? await Promise.all(
+    const responses = await Promise.all(
           urls.map((url) =>
-            instance.get(url, {
+            api.get(url, {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
@@ -76,15 +57,6 @@ export const fetchAllPositionsByAllLevels = async (token) => {
             })
           )
         )
-      : await Promise.all(
-          urls.map((url) =>
-            axios.get(url, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            })
-          )
-        );
 
     // Extract data from responses
     const positionsByLevels = responses.map((response) => response.data);

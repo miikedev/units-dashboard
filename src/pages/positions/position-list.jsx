@@ -50,7 +50,7 @@ const PositionList = () => {
   const [rows, setRows] = useState([])
   const [selectedLevel, setSelectedLevel] = useState('state')
   const [selectedPosition, setSelectedPositions] = useState([]);
-  const { data } = usePositionQuery({ token: localStorage.getItem('token') });
+  const { data, isSuccess} = usePositionQuery({ token: localStorage.getItem('token') });
 
   // const mappedRows = useMemo(() => {
   //   if (!selectedPosition.length) return [];
@@ -93,7 +93,6 @@ const PositionList = () => {
 
   useEffect(() => {
     if (!data) return;
-
     const filterPositions = () => {
       switch (selectedLevel) {
         case 'state':
@@ -129,7 +128,7 @@ const PositionList = () => {
     console.log('data2', data2)
     setColumns([...data2])
     setSelectedPositions(filterPositions());
-  }, [selectedLevel, data]);
+  }, [selectedLevel, data, isSuccess]);
   console.log('selected level', selectedLevel)
   return (
     <div className='z-50 bg-white'>
