@@ -11,6 +11,7 @@ import { overviewAtom, showStatusAtom } from "@/atoms/overviewAtom";
 import Loading from "@/components/Loading";
 import InactivePositionTable from "./inactive-position-table";
 import { useOverviewQuery } from "@/apis/overviewQuery";
+import Error from "@/components/Error";
 
 const Overview = () => {
   const { data, isSuccess, isPending, isError, error } = useOverviewQuery();
@@ -36,16 +37,7 @@ const Overview = () => {
   } = overview || {};
 
   if (isPending) return <Loading />;
-  if (isError) {
-    return (
-      <Card>
-        <CardHeader>Error</CardHeader>
-        <CardContent>
-          <span className="text-red-600">Error: {error?.message || "Something went wrong"}</span>
-        </CardContent>
-      </Card>
-    );
-  }
+  if (isError) return <Error />
 
   if (!isSuccess || !overview) return null;
 

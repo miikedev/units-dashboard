@@ -76,7 +76,7 @@ const CreateModal = ({ isOpen, onClose }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.currentTarget));
-
+        console.log('formData', formData)
         // Find selected geographical items
         const selectedState = states?.find(s => s.key === formData.state);
         const selectedDistrict = disctricts?.find(d => d.key === formData?.district);
@@ -174,7 +174,6 @@ const CreateModal = ({ isOpen, onClose }) => {
                                             // isInvalid={validation.type == undefined ? false : true}
                                             // selectedKey={selectedStateKey.state?.key || ""}
                                             // onClose={() => setTouchState(true)}
-
                                             name="state"
                                             className="max-w-xs rounded-none"
                                             defaultItems={states ?? []}
@@ -242,7 +241,7 @@ const CreateModal = ({ isOpen, onClose }) => {
                                         <Autocomplete
                                             // errorMessage={isValid || !touch ? "" : "You must select a location"}
                                             // isInvalid={isValid || !touch ? false : true}
-                                            name="position_id"
+                                            name="position_name"
                                             className="max-w-xs rounded-none"
                                             defaultItems={filteredPositions}
                                             classNames={{

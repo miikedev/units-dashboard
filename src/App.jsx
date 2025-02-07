@@ -16,6 +16,7 @@ import PositionLayout from './pages/positions/position-layout'
 import './App.css'
 import PositionList from './pages/positions/position-list'
 import PositionListBeta from './pages/positions/position-list-beta'
+import PositionListAlpha from './pages/positions/position-list-alpha'
 import PositionListProd from './pages/positions/position-list-prod'
 const isAuthenticated = () => {
   return localStorage.getItem('token') !== null
@@ -52,7 +53,9 @@ function App() {
             <Route path="edit/:id" element={<UnitEdit />} />
           </Route>
           <Route path="positions" element={<PositionLayout/>} errorElement={<Error />}> 
-            <Route index element={<PositionListBeta />} errorElement={<Error />}/>
+            {/* <Route index element={<PositionListBeta />} errorElement={<Error />}/> */}
+
+            <Route index element={<PositionListAlpha />} errorElement={<Error />}/>
           </Route>
           {/* Redirect any unmatched routes to the dashboard */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />

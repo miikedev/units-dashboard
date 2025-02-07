@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPositions, fetchPositionsByLevel, fetchAllPositionsByAllLevels } from "./positions";
-export const usePositionQuery = ({token}) => {  
+export const usePositionQuery = () => {  
     return useQuery(  
         {  
             queryKey: ['positions'], // Include currentPage in the queryKey  
-            queryFn: () => fetchPositions(token),  
+            queryFn: () => fetchPositions(),  
         }  
     );  
 }; 
