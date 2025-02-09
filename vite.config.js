@@ -1,3 +1,4 @@
+
 import { defineConfig } from "vite";  
 import { resolve } from "path";  
 import react from "@vitejs/plugin-react";  
@@ -11,7 +12,9 @@ export default defineConfig({
         changeOrigin: true,  
         rewrite: (path) => path.replace(/^\/api/, ''),  
       },  
-    },  
+    },
+    host: '0.0.0.0',
+    allowedHosts: ['81f7b374-e659-4342-add1-5a7c050a61e1-00-dmtn53zmfm9m.pike.replit.dev'],
   },  
   plugins: [  
     react(),  
