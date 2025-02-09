@@ -195,7 +195,7 @@ const PositionListAlpha = () => {
                     aria-label="Example static collection table"
                 >
                     <TableHeader
-                        className="min-w-[150px] whitespace-nowrap" // Add minimum width
+                        className="min-w-[5px] whitespace-nowrap" // Add minimum width
                         columns={columns}
                     >
                         {(column) => (
@@ -259,7 +259,7 @@ const PositionListAlpha = () => {
                                             );
                                         }
                                         return (
-                                            <TableCell>
+                                            <TableCell className="max-w-[8rem]">
                                                 {renderCell(item, columnKey)}
                                             </TableCell>
                                         );
