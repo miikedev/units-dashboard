@@ -12,6 +12,7 @@ export const columnsAtom = atom([
   { name: "စဥ်", uid: "id" },
   { name: "နာမည်", uid: "name" },
   { name: "လိပ်စာ", uid: "contact" },
+  { name: "ရာထူး", uid: "position" },
   { name: "STATUS", uid: "recruitment_status" },
   { name: "LOCATION", uid: "location" },
   { name: "ACTIONS", uid: "actions" },

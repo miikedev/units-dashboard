@@ -58,6 +58,8 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
         return <span>{unit?.name}</span>;
       case "contact":
         return <span>{unit?.contact}</span>;
+      case "position":
+        return <span>{unit?.position.name}</span>;
       case "recruitment_status":
         return (
           <span>

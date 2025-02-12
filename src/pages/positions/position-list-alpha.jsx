@@ -11,6 +11,7 @@ import {
     AutocompleteItem,
     getKeyValue,
     select,
+    Pagination,
 } from "@heroui/react";
 import { usePositionStatusQuery } from "@/apis/positionStatusQuery";
 import { usePositionQuery } from "@/apis/positionsQuery";
@@ -21,6 +22,7 @@ const levels = [
     { key: "district", label: "ခရိုင်" },
     { key: "township", label: "မြို့နယ်" },
 ];
+
 const PositionListAlpha = () => {
     const [selectedLevel, setSelectedLevel] = useState("state");
     const [page, setPage] = useState(1);
@@ -73,6 +75,7 @@ const PositionListAlpha = () => {
                 }))
                 .map((i) => transformToSingleRow(i));
             setPositionStatuses([...results]);
+            // setPositionStatusPagination()
         }
     }, [positionStatusData, selectedLevel]); // Don't need additional if for positionStatusData existence
 
@@ -148,7 +151,7 @@ const PositionListAlpha = () => {
             case "state":
                 return <span>{cellValue}</span>;
             case "district":
-                return <span className="">{cellValue}</span>;
+                return <span>{cellValue}</span>;
             case "township":
                 return <span>{cellValue}</span>;
             default:
@@ -239,7 +242,7 @@ const PositionListAlpha = () => {
                                             return (
                                                 <TableCell
                                                     key={columnKey}
-                                                    className="bg-slate-50 w-[8rem]"
+                                                    className="bg-slate-50"
                                                 >
                                                     လစ်လပ်ရာထူး
                                                 </TableCell>
@@ -259,7 +262,7 @@ const PositionListAlpha = () => {
                                             );
                                         }
                                         return (
-                                            <TableCell className="max-w-[8rem]">
+                                            <TableCell className="">
                                                 {renderCell(item, columnKey)}
                                             </TableCell>
                                         );
@@ -269,6 +272,17 @@ const PositionListAlpha = () => {
                         }}
                     </TableBody>
                 </Table>
+                <div className="flex justify-start w-[95%] my-3 mx-2">
+                    {selectedLevel == "township" && (
+                        <Pagination
+                            showShadow
+                            color="primary"
+                            size="sm"
+                            initialPage={1}
+                            total={10}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     );
