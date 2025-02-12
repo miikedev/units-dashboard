@@ -24,12 +24,15 @@ const levels = [
 ];
 
 const PositionListAlpha = () => {
-    const [selectedLevel, setSelectedLevel] = useState("state");
     const [page, setPage] = useState(1);
+    const [selectedLevel, setSelectedLevel] = useState("state");
     const [positions, setPositions] = useState([]);
     const [positionStatuses, setPositionStatuses] = useState([]);
+    const [positionStatusPagination, setPositionStatusPagination] = useState(
+        {},
+    );
     const [columns, setColumns] = useState([]);
-
+    console.log("current page", page);
     const { data, isSuccess: isPositionSuccess } = usePositionQuery();
     const limit =
         selectedLevel === "state"
@@ -75,10 +78,16 @@ const PositionListAlpha = () => {
                 }))
                 .map((i) => transformToSingleRow(i));
             setPositionStatuses([...results]);
+            setPositionStatusPagination({
+                page: positionStatusData.data.page,
+                limit: positionStatusData.data.limit,
+                totalPages: positionStatusData.data.totalPages,
+                totalResults: positionStatusData.data.totalResults,
+            });
             // setPositionStatusPagination()
         }
     }, [positionStatusData, selectedLevel]); // Don't need additional if for positionStatusData existence
-
+    console.log("position status pagination", positionStatusPagination);
     useEffect(() => {
         const newColumns = [
             { key: "id", label: "စဥ်" },
@@ -101,7 +110,7 @@ const PositionListAlpha = () => {
             key: s.name,
             label: s.name,
         }));
-        newColumns.push(...results);
+        newColumns.push(...results.reverse());
 
         setColumns(newColumns);
     }, [selectedLevel, positions]); // Depend on `positions` instead of individual state states
@@ -164,11 +173,13 @@ const PositionListAlpha = () => {
                 <Autocomplete
                     radius="none"
                     defaultSelectedKey="state"
-                    // className={selectedLevel ? 'max-w-xs ml-5' : 'max-w-xs ml-5 ring-1 ring-danger-100'}
                     className="max-w-xs ml-5"
                     defaultItems={levels}
                     placeholder="နေရာရွေးပါ"
-                    onSelectionChange={(key) => setSelectedLevel(key)}
+                    onSelectionChange={(key) => {
+                        setSelectedLevel(key);
+                        setPage(1);
+                    }}
                     classNames={{
                         listboxWrapper: "rounded-none",
                         listbox: "rounded-none",
@@ -273,13 +284,15 @@ const PositionListAlpha = () => {
                     </TableBody>
                 </Table>
                 <div className="flex justify-start w-[95%] my-3 mx-2">
-                    {selectedLevel == "township" && (
+                    {(selectedLevel == "township" ||
+                        selectedLevel == "district") && (
                         <Pagination
                             showShadow
                             color="primary"
                             size="sm"
                             initialPage={1}
-                            total={10}
+                            total={positionStatusPagination?.totalPages}
+                            onChange={setPage}
                         />
                     )}
                 </div>
