@@ -12,6 +12,7 @@ import Loading from "@/components/Loading";
 import InactivePositionTable from "./inactive-position-table";
 import { useOverviewQuery } from "@/apis/overviewQuery";
 import Error from "@/components/Error";
+import { LoaderIcon } from "lucide-react";
 
 const Overview = () => {
   const { data, isSuccess, isPending, isError, error } = useOverviewQuery();
@@ -36,8 +37,8 @@ const Overview = () => {
     inactiveUnitsByLevel = [],
   } = overview || {};
 
-  if (isPending) return <Loading />;
-  if (isError) return <Error />
+  if (isPending) return <div className="flex justify-center items-center w-full h-3/4"><LoaderIcon /></div>;
+  if (isError) return <div className="flex justify-center items-center w-full h-3/4"><Error /></div>
 
   if (!isSuccess || !overview) return null;
 
