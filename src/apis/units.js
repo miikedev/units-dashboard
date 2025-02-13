@@ -44,7 +44,7 @@ export const updateUnit = async (id, payload) => {
   const url = constructUrl(`/units/${id}`);
   console.log(url);
   try {
-    const response = await api.put(url, payload);
+    const response = await api.patch(url, payload);
     return response.data;
   } catch (error) {
     console.error(`Error updating unit with ID ${id}:`, error);

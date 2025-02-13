@@ -8,6 +8,7 @@ import {
   TableRow,
   TableCell,
   Pagination,
+  useDisclosure
 } from "@heroui/react";
 import { columnsAtom } from "../atoms/index.js";
 import {
@@ -16,11 +17,16 @@ import {
 } from "@/apis/unitsQuery.js";
 import { useAtom } from "jotai";
 import { Edit, Trash2 } from "lucide-react";
+import EditModalAlpha from "./edit-modal-alpha.jsx";
+import { useState } from "react";
 
 const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
+  const [ editedUnit, setEditedUnit ] = useState(null)
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [columns] = useAtom(columnsAtom);
   const { mutate } = useUnitCreateMutation();
   const { mutate: deleteMutate } = useUnitDeleteMutation();
+  
   console.log("pagination", pagination);
   console.log("units", units);
 
@@ -29,6 +35,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
       id: unitId,
     });
   };
+
   const renderLocationColumn = (item) => {
     const { state, district, township } = item;
 
@@ -50,7 +57,15 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
       </div>
     );
   };
+
   const renderCell = (unit, columnKey, id) => {
+
+    const handleEditOpen = (unit) => {
+      onOpen();
+      // console.log('units', unit)
+      setEditedUnit(unit)
+    }
+
     switch (columnKey) {
       case "id":
         return <span>{id}</span>;
@@ -71,7 +86,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
       case "actions":
         return (
           <div className="flex justify-center space-x-2">
-            <button className="p-1 hover:bg-gray-100 rounded">
+            <button onClick={() => handleEditOpen(unit)} className="p-1 hover:bg-gray-100 rounded">
               <Edit size={18} />
               <span className="sr-only">Edit</span>
             </button>
@@ -91,6 +106,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
 
   return (
     <div className="my-3">
+      <EditModalAlpha unit={editedUnit} isOpen={isOpen} onClose={onClose} />
       <Table aria-label="Units table">
         <TableHeader>
           {columns.map((column) => (

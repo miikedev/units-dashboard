@@ -125,6 +125,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
     setPositionId(positionId);
   };
 
+  // input change for tracking autocomplete cancellation
   const stateInputChange = (value) => {
     console.log("state value", value);
     if (value == "") {
@@ -132,6 +133,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
       setSelectedLevel(null);
     }
   };
+
   const districtInputChange = (value) => {
     console.log("district value", value);
     if (value == "") {
@@ -149,7 +151,6 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
 
   console.log("states data", states);
   console.log("districts data", districts);
-
   console.log("selected level", selectedLevel);
 
   const handleSubmit = (e) => {
@@ -163,15 +164,18 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
       recruitment_status,
       position,
     } = Object.fromEntries(new FormData(e.currentTarget));
+
     const stateId = states?.find((s) => s.name == state)?._id;
     const districtId = districts?.find((d) => d.name == district)?._id;
     const townshipId = townships?.find((t) => t.name == township)?._id;
     const positionId = positions?.find((p) => p.name == position)?._id;
     const status = recruitment_status == "ခန့်အပ်ပြီး" ? "A" : "C";
+
     console.log("submitted stateId", stateId);
     console.log("submitted districtId", districtId);
     console.log("submitted townshipId", townshipId);
     console.log("submitted positionId", positionId);
+
     mutate({
       payload: {
         name,
@@ -210,7 +214,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
     <Modal size="sm" isOpen={isOpen} onClose={handleOnClose}>
       {locationLoading && (
         <div>
-          // lucid loader
+          // loader
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -218,10 +222,10 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-loader"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-loader"
           >
             <path d="M12 2v4" />
             <path d="m16.2 7.8 2.9-2.9" />
@@ -239,7 +243,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Modal Title
+                Create a Unit
               </ModalHeader>
               <Form onSubmit={handleSubmit}>
                 <ModalBody>
