@@ -30,8 +30,8 @@ const statuses = [
 const EditModalAlpha = ({ unit, isOpen, onClose }) => {
     const {
         mutate,
-        isSuccess: createUnitSuccess,
-        isPending: createUnitPending,
+        isSuccess: updateUnitSuccess,
+        isPending: updateUnitPending,
       } = useUnitUpdateMutation();
     
       const {
@@ -47,15 +47,15 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
       } = usePositionQuery();
     
       console.log("position data", positionData);
-    
+      
       const [states, setStates] = useState([]);
     
       // isSucess set state data
       useEffect(() => {
         if (locationSuccess) {
-          setStates(locationData.data);
+          setStates(locationData?.data);
         }
-      }, [locationSuccess]);
+      }, [locationSuccess, locationData]);
     
       const [districts, setDistricts] = useState([]);
       const [townships, setTownships] = useState([]);
@@ -74,7 +74,9 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
       console.log("districtId", districtId);
       console.log("townshipId", townshipId);
       console.log("status", status);
-      console.log("mutate success", createUnitSuccess);
+      console.log("location succes", locationSuccess)
+      console.log("location data", locationData)
+      console.log("mutate success", updateUnitSuccess);
 
     
       //if selected level has changed, set it's respective positions
@@ -207,10 +209,10 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
       };
     
       useEffect(() => {
-        if (createUnitSuccess) {
+        if (updateUnitSuccess) {
           handleOnClose();
         }
-      }, [createUnitSuccess]);
+      }, [updateUnitSuccess]);
     
       const handleOnClose = () => {
         setSelectedLevel(null);
@@ -269,7 +271,7 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
                                         <Autocomplete
                                             className="max-w-xs"
                                             name="district"
-                                            defaultInputValue={unit?.district.name}
+                                            defaultInputValue={unit?.district?.name}
                                             defaultItems={districts}
                                             label="Burma Districts"
                                             onInputChange={districtInputChange}
@@ -288,7 +290,7 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
                                             className="max-w-xs"
                                             name="township"
                                             defaultItems={townships}
-                                            defaultInputValue={unit?.township.name}
+                                            defaultInputValue={unit?.township?.name}
                                             label="Burma Townships"
                                             onInputChange={townshipInputChange}
                                             placeholder="Please Select a Township Level"
