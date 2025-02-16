@@ -12,10 +12,21 @@ import {
   updateUnit,
 } from "./units";
 const queryClient = new QueryClient();
-export const useUnitsQuery = (currentPage) => {
+
+export const useUnitsQuery = ({page: currentPage, search, status}) => {
+  console.log('search in unit query', search);
   return useQuery({
-    queryKey: ["units", currentPage],
-    queryFn: () => fetchUnits(currentPage),
+    queryKey: ["units", currentPage, search, status],
+    queryFn: () => fetchUnits(currentPage, search, status),
+    // enabled: Boolean(search)
+  });
+};
+
+export const useUnitsSearchQuery = ({page: currentPage, search}) => {
+  return useQuery({
+    queryKey: ["units", currentPage, search],
+    queryFn: () => fetchUnits(currentPage, search),
+    enabled: Boolean(search)
   });
 };
 export const useUnitFetchByIdQuery = (id) => {
