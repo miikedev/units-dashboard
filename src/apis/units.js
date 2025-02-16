@@ -1,16 +1,28 @@
 import { constructUrl, api } from ".";
 
 // Fetch all units
-export const fetchUnits = async (page = 1) => {
-  const url = constructUrl(`/units?page=${page}`);
+export const fetchUnits = async (page = 1, search='', status) => {
+  console.log('searching...', search);
+  let url = `/units?page=${page}`;
+
+  // Only add search if it has a value
+  if (search && search.trim() !== "") {
+    url += `&search=${encodeURIComponent(search)}`;
+  }
+
+  if (status) {
+    url += `&status=${status}`;
+  }
+
   try {
-    const response = await api.get(url);
+    const response = await api.get(constructUrl(url));
     return response.data;
   } catch (error) {
     console.error(`Error fetching units:`, error);
     throw error;
   }
 };
+
 
 // Fetch a single unit by ID
 export const fetchUnitById = async (id) => {
