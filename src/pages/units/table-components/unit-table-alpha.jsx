@@ -20,7 +20,7 @@ import { Edit, Trash2 } from "lucide-react";
 import EditModalAlpha from "./edit-modal-alpha.jsx";
 import { useState } from "react";
 
-const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
+const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) => {
   const [ editedUnit, setEditedUnit ] = useState(null)
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [columns] = useAtom(columnsAtom);
@@ -147,6 +147,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading }) => {
         initialPage={pagination?.page}
         size={"sm"}
         total={pagination?.pages}
+        onChange={setPage}
       />
     </div>
   );

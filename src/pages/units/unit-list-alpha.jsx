@@ -58,6 +58,7 @@ const UnitListAlpha = () => {
           isSuccess={unitsSuccess}
           units={fetchedUnits}
           pagination={fetchedPagination}
+          setPage={setPage}
         />
       </div>
     </>
