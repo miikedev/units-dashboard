@@ -14,6 +14,7 @@ import { useOverviewQuery } from "@/apis/overviewQuery";
 import Error from "@/components/Error";
 import { LoaderIcon } from "lucide-react";
 
+
 const Overview = () => {
   const { data, isSuccess, isPending, isError, error } = useOverviewQuery();
   const [overview, setOverview] = useAtom(overviewAtom);
@@ -37,7 +38,7 @@ const Overview = () => {
     inactiveUnitsByLevel = [],
   } = overview || {};
 
-  if (isPending) return <div className="flex justify-center items-center w-full h-3/4"><LoaderIcon /></div>;
+  if (isPending) return <div className="flex justify-center items-center w-full h-3/4"><Loading /></div>;
   if (isError) return <div className="flex justify-center items-center w-full h-3/4"><Error /></div>
 
   if (!isSuccess || !overview) return null;
