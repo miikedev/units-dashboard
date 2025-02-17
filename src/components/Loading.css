@@ -1,0 +1,19 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background:transparent; /* Dark background like iPhone */
+  }
+  
+  .loading-icon {
+    width: 25px;
+    height: 25px;
+    color: black; /* White color like iOS */
+    animation: spin 1s linear infinite; /* Rotate animation */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
