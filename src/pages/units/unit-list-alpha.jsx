@@ -71,12 +71,12 @@ const UnitListAlpha = () => {
         {/* <h1>Unit List Alpha</h1> */}
         <div className="flex justify-between">
           <div className="flex gap-3">
-          <Input startContent={<Search />} className="w-[16rem]" onChange={handleSearchInputChange} />
+          <Input startContent={<Search />} className="w-[16rem]" onChange={handleSearchInputChange} placeholder="Search by Name ..." />
           <Autocomplete
             className="w-[12rem]"
             defaultItems={statuses}
             // defaultSelectedKey=""
-            placeholder="Search Status..."
+            placeholder="Search Status ..."
             onSelectionChange={setFilterStatus}
           >
             {(item) => <AutocompleteItem key={item.key}>{item.label}</AutocompleteItem>}

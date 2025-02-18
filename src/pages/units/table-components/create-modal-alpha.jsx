@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -34,6 +34,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
     mutate,
     isSuccess: createUnitSuccess,
     isPending: createUnitPending,
+    reset: createUnitReset
   } = useUnitCreateMutation();
 
   const {
@@ -189,25 +190,29 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
     });
   };
 
-  useEffect(() => {
-    if (createUnitSuccess) {
-      handleOnClose();
-    }
-  }, [createUnitSuccess]);
-
-  const handleOnClose = () => {
+  const handleOnClose = useCallback(() => {
     setSelectedLevel(null);
-    setStates([]);
-    setDistricts([]);
-    setTownships([]);
-    setPositions([]);
     setStateId(null);
     setDistrictId(null);
     setTownshipId(null);
     setStatus(null);
     setPositionId(null);
-    onClose();
-  };
+    setTimeout(() => {
+      onClose();
+      createUnitReset();
+    }, 1500);
+  }, [onClose, setSelectedLevel, setStateId, setDistrictId, setTownshipId, setStatus, setPositionId, createUnitReset]);
+
+  useEffect(() => {
+    if (createUnitSuccess) {
+      handleOnClose();
+    }
+  }, [createUnitSuccess, handleOnClose]);
+
+  // wrap with useCallback
+
+
+
 
   // const { selectedState, selectedDistrict, selectedTownship } = useLocation();
   return (
@@ -343,10 +348,11 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Close
                   </Button>
-                  <Button type="submit" color="primary">
+                  <Button type="submit" color="primary" isLoading={createUnitPending}>
                     Cretae
                   </Button>
                 </ModalFooter>
+                {createUnitSuccess && <p className="text-green-700 block font-semibold my-4 text-center mx-auto">Success!</p>}
               </Form>
             </>
           )}

@@ -124,6 +124,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) =>
          loadingContent={<Loading />}
          >
           {isSuccess &&
+            units?.length < 0 ? <TableRow><TableCell>No data!</TableCell></TableRow> :
             units?.map((unit, index) => (
               <TableRow key={unit._id}>
                 {columns.map((column) => {
