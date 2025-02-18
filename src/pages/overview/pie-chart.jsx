@@ -27,22 +27,14 @@ const chartConfig = {
   },  
 };  
 
-export default function Component({data, dateRange, label}) {  
-    
-    // Ensure that the data is correctly mapped to chartData  
-    const result = chartData.map((chartItem, index) => {  
-        const correspondingData = data[index] || {};  
-        return {  
-            ...chartItem,  
-            count: correspondingData.count || 0, // Ensure count is pulled from data if available  
-        };  
-    });  
-
+export default function Component({data, label}) {  
+    // Ensure that the data is correctly mapped to chartData   
+    console.log('data in pie', data)
     return (  
         <div className="flex flex-col shadow-none">  
             <CardHeader className="items-center pb-0">  
-                <CardTitle>ခန့်အပ်ခြင်းဆိုင်ရာ အချက်အလက် - Pie Chart</CardTitle>  
-                <CardDescription>{dateRange}</CardDescription>  
+                {/* <CardTitle>ခန့်အပ်ခြင်းဆိုင်ရာ အချက်အလက် - Pie Chart</CardTitle>   */}
+                {/* <CardDescription>{dateRange}</CardDescription>   */}
             </CardHeader>  
             <CardContent className="flex-1 pb-0">  
                 <ChartContainer  
@@ -51,7 +43,7 @@ export default function Component({data, dateRange, label}) {
                 >  
                     <PieChart>  
                         <ChartTooltip content={<ChartTooltipContent hideLabel />} />  
-                        <Pie data={result} dataKey="count" label nameKey="level" />  
+                        <Pie data={data} dataKey="count" label nameKey="level" />  
                     </PieChart>  
                 </ChartContainer>  
             </CardContent>  
@@ -60,11 +52,11 @@ export default function Component({data, dateRange, label}) {
                     {/* Trending up by 5.2% this month <TrendingUp className="h-4 w-4" /> */}  
                 </div>  
                 <div className="leading-none text-muted-foreground">  
-                    {   label === 'Active Units' ? 
+                    {   label === 'A' ? 
                         'လက်ရှိအချိန်အထိ ဒေသအလိုက် ခန့်အပ်ထားပြီးမှု စုစုပေါင်း' :
-                        label === 'Inactive Units' ?
+                        label === 'C' ?
                         'လက်ရှိအချိန်အထိ ဒေသအလိုက် လျာထားပြီးမှု စုစုပေါင်း' :
-                        'လက်ရှိအချိန်အထိ ဒေသအလိုက် ခန့်အပ် + လျာထားပြီးမှု စုစုပေါင်း'
+                        'လက်ရှိအချိန်အထိ ဒေသအလိုက် လစ်လပ်ရာထူး စုစုပေါင်း'
                     }
                 </div>  
             </CardFooter>  
