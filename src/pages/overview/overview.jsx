@@ -42,9 +42,9 @@ const Overview = () => {
     }))
   );
   console.log('result', result)
-  const filterAStatus = result.filter(i => i.status === 'A')
-  const filterCStatus = result.filter(i => i.status === 'C')
-  const filterNStatus = result.filter(i => i.status === 'N')
+  const filterAStatus = result?.filter(i => i.status === 'A')
+  const filterCStatus = result?.filter(i => i.status === 'C')
+  const filterNStatus = result?.filter(i => i.status === 'N')
   const pieData = [
     {
       name: 'A',
@@ -69,7 +69,9 @@ const Overview = () => {
     { data: statusSum?.A, label: "Active Units" },
     { data: statusSum?.C, label: "Inactive Units" },
   ];
+
   console.log('pieChartData', pieChartData)
+
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-5">
@@ -99,11 +101,13 @@ const Overview = () => {
           </CardContent>
         </Card>
       </div>
-      {showStatus && (
-        <div className="mb-5">
-          {/* <InactivePositionTable data={statusZeroPositions} /> */}
-        </div>
-      )}
+      {
+        showStatus && (
+          <div className="mb-5">
+            {/* <InactivePositionTable data={statusZeroPositions} /> */}
+          </div>
+        )
+      }
       <Card>
         <CardHeader className="font-bold text-center">Overview Pie Charts of Positions</CardHeader>
         <div className="flex w-full justify-between">
