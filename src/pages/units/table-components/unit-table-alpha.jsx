@@ -19,6 +19,7 @@ import { useAtom } from "jotai";
 import { Edit, Trash2 } from "lucide-react";
 import EditModalAlpha from "./edit-modal-alpha.jsx";
 import { useState } from "react";
+import Loading from "@/components/Loading.jsx";
 
 const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) => {
   const [ editedUnit, setEditedUnit ] = useState(null)
@@ -118,8 +119,10 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) =>
             </TableColumn>
           ))}
         </TableHeader>
-        <TableBody>
-          {/* {isLoading && <div>Loading...</div>} */}
+        <TableBody
+         isLoading={isLoading}
+         loadingContent={<Loading />}
+         >
           {isSuccess &&
             units?.map((unit, index) => (
               <TableRow key={unit._id}>

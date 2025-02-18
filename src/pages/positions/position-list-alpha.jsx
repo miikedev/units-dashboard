@@ -16,6 +16,7 @@ import {
 import { usePositionStatusQuery } from "@/apis/positionStatusQuery";
 import { usePositionQuery } from "@/apis/positionsQuery";
 import { groupByLevel } from "@/utils";
+import Loading from "@/components/Loading";
 
 const levels = [
     { key: "state", label: "ပြည်နယ်" },
@@ -41,7 +42,7 @@ const PositionListAlpha = () => {
               ? 70
               : 100;
 
-    const { data: positionStatusData } = usePositionStatusQuery({
+    const { data: positionStatusData, isLoading } = usePositionStatusQuery({
         type: selectedLevel,
         page,
         limit,
@@ -218,7 +219,11 @@ const PositionListAlpha = () => {
                             </TableColumn>
                         )}
                     </TableHeader>
-                    <TableBody items={positionStatuses}>
+                    <TableBody 
+                        isLoading={isLoading}
+                        items={positionStatuses}
+                        loadingContent={<Loading />}
+                    >
                         {(item) => {
                             return (
                                 <TableRow key={item.id}>
