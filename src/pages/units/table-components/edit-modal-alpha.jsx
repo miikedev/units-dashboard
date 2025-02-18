@@ -14,7 +14,7 @@ import {
 import { useLocationsQuery } from "@/apis/locationsQuery";
 import { usePositionQuery } from "@/apis/positionsQuery";
 import { useUnitUpdateMutation } from "@/apis/unitsQuery";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
 import {
   stateIdAtom,
@@ -32,6 +32,7 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
         mutate,
         isSuccess: updateUnitSuccess,
         isPending: updateUnitPending,
+        reset: updateUnitReset,
       } = useUnitUpdateMutation();
     
       const {
@@ -208,32 +209,31 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
         });
       };
     
-      useEffect(() => {
-        if (updateUnitSuccess) {
-          handleOnClose();
-        }
-      }, [updateUnitSuccess]);
-    
-      const handleOnClose = () => {
-        setSelectedLevel(null);
-        setStates([]);
-        setDistricts([]);
-        setTownships([]);
-        setPositions([]);
-        setStateId(null);
-        setDistrictId(null);
-        setTownshipId(null);
-        setStatus(null);
-        setPositionId(null);
-        onClose();
-      };
+      const handleOnClose = useCallback(() => {
+          setSelectedLevel(null);
+          setStateId(null);
+          setDistrictId(null);
+          setTownshipId(null);
+          setStatus(null);
+          setPositionId(null);
+          setTimeout(() => {
+            onClose();
+            updateUnitReset();
+          }, 1500);
+        }, [onClose, setSelectedLevel, setStateId, setDistrictId, setTownshipId, setStatus, setPositionId, updateUnitReset]);
+      
+        useEffect(() => {
+          if (updateUnitSuccess) {
+            handleOnClose();
+          }
+        }, [updateUnitSuccess, handleOnClose]);
     return (
         <div>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Modal Title {unit?._id}</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Edit</ModalHeader>
                             <Form onSubmit={handleSubmit}>
                                 <ModalBody>
                                     <Input
@@ -339,10 +339,11 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
                                     <Button color="danger" variant="light" onPress={onClose}>
                                         Close
                                     </Button>
-                                    <Button type="submit" color="primary">
+                                    <Button type="submit" color="primary" isLoading={updateUnitPending}>
                                         Cretae
                                     </Button>
                                 </ModalFooter>
+                                {updateUnitSuccess && <p className="text-green-700 block font-semibold my-4 text-center mx-auto">Success!</p>}
                             </Form>
                         </>
                     )}

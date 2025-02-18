@@ -22,14 +22,14 @@ import { useState } from "react";
 import Loading from "@/components/Loading.jsx";
 
 const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) => {
-  const [ editedUnit, setEditedUnit ] = useState(null)
+  const [editedUnit, setEditedUnit] = useState(null)
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [columns] = useAtom(columnsAtom);
   const { mutate } = useUnitCreateMutation();
   const { mutate: deleteMutate } = useUnitDeleteMutation();
-  
+
   console.log("pagination", pagination);
-  console.log("units", units);
+  console.log("units", units.length);
 
   const handleUnitDelete = (unitId) => {
     deleteMutate({
@@ -41,9 +41,9 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) =>
     const { state, district, township } = item;
 
     // Log the values for debugging
-    console.log("state: ", state);
-    console.log("district: ", district);
-    console.log("township: ", township);
+    // console.log("state: ", state);
+    // console.log("district: ", district);
+    // console.log("township: ", township);
 
     // Ensure state is an object and has a `name` property
     const stateName = state?.name || "";
@@ -120,28 +120,35 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) =>
           ))}
         </TableHeader>
         <TableBody
-         isLoading={isLoading}
-         loadingContent={<Loading />}
-         >
-          {isSuccess &&
-            units?.map((unit, index) => (
-              <TableRow key={unit._id}>
-                {columns.map((column) => {
-                  if (column.uid == "location") {
+          isLoading={isLoading}
+          loadingContent={<Loading />}
+          emptyContent={
+            <h1 className="font-medium">No Data!</h1>
+          }
+        >
+          {isSuccess && 
+            (
+              units?.map((unit, index) => (
+                <TableRow key={unit._id}>
+                  {columns.map((column) => {
+                    if (column.uid === "location") {
+                      return (
+                        <TableCell key={column.uid} className="min-w-[5rem]">
+                          {renderCell(unit, column.uid, index + 1)}
+                        </TableCell>
+                      );
+                    }
                     return (
-                      <TableCell className="min-w-[5rem]">
+                      <TableCell key={column.uid}>
                         {renderCell(unit, column.uid, index + 1)}
                       </TableCell>
                     );
-                  }
-                  return (
-                    <TableCell key={column.uid}>
-                      {renderCell(unit, column.uid, index + 1)}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
+                  })}
+                </TableRow>
+              ))
+            )
+          }
+
         </TableBody>
       </Table>
       <Pagination
