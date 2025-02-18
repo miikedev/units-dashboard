@@ -248,7 +248,7 @@ const CreateModalAlpha = ({ isOpen, onClose }) => {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Create a Unit
+                Create
               </ModalHeader>
               <Form onSubmit={handleSubmit}>
                 <ModalBody>

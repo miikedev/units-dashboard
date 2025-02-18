@@ -229,7 +229,7 @@ const EditModalAlpha = ({ unit, isOpen, onClose }) => {
         }, [updateUnitSuccess, handleOnClose]);
     return (
         <div>
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal size="sm" isOpen={isOpen} onClose={onClose}>
                 <ModalContent>
                     {(onClose) => (
                         <>
