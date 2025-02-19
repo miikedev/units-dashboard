@@ -39,11 +39,10 @@ const InactivePositionTable = ({ data, totalPages, loading }) => {
           }
         </TableBody>
       </Table>
-      <div className='flex justify-end'>
+      <div className='flex justify-end mt-3'>
         <Pagination
-          className='mt-1'
-          showShadow
           showControls
+          showShadow
           color="primary"
           size="sm"
           initialPage={1}

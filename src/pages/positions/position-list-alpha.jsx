@@ -315,6 +315,7 @@ const PositionListAlpha = () => {
                         selectedLevel == "district") && (
                         <Pagination
                             showShadow
+                            showControls
                             color="primary"
                             size="sm"
                             initialPage={1}
