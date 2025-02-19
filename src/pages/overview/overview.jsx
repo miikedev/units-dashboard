@@ -79,7 +79,7 @@ const Overview = () => {
 
   return (
     <div className="px-5">
-      <div className="grid lg:grid-cols-4 my-5">
+      <div className="grid lg:grid-cols-4 my-5 gap-3">
         <Card>
           <CardHeader>ခန့်ထားပြီးသူ နှင့် လျာထားပြီးသူ စုစုပေါင်း</CardHeader>
           <CardContent>{statusSum.A + statusSum.C}</CardContent>

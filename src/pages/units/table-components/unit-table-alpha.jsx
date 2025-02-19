@@ -154,6 +154,7 @@ const UnitTableAlpha = ({ units, pagination, isSuccess, isLoading, setPage }) =>
       <Pagination
         className="my-3"
         showControls
+        showShadow
         initialPage={pagination?.page}
         size={"sm"}
         total={pagination?.pages}

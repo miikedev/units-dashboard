@@ -9,17 +9,22 @@ export const fetchPositionStatuses = async (
   const baseUrl = '/position-statuses';
   const queryParams = [];
 
-  // Add required parameters
+  // Add always-included parameters
   queryParams.push(`type=${encodeURIComponent(type)}`);
-  queryParams.push(`page=${page}`);
   queryParams.push(`limit=${limit}`);
 
+  // Conditionally add page parameter
+  if (!search.trim()) {
+    queryParams.push(`page=${page}`);
+  }
+
   // Add search if provided
-  if (search && search.trim() !== '') {
+  if (search.trim()) {
     queryParams.push(`search=${encodeURIComponent(search.trim())}`);
   }
 
-  if (status && status.trim() !== '') {
+  // Add status if provided
+  if (status.trim()) {
     queryParams.push(`status=${encodeURIComponent(status.trim())}`);
   }
 
