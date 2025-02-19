@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import {
     Chip,
     Table,
@@ -12,11 +12,14 @@ import {
     getKeyValue,
     select,
     Pagination,
+    Input
 } from "@heroui/react";
 import { usePositionStatusQuery } from "@/apis/positionStatusQuery";
 import { usePositionQuery } from "@/apis/positionsQuery";
 import { groupByLevel } from "@/utils";
 import Loading from "@/components/Loading";
+import { Search } from "lucide-react";
+import { useDebounce } from "@uidotdev/usehooks";
 
 const levels = [
     { key: "state", label: "ပြည်နယ်" },
@@ -26,6 +29,8 @@ const levels = [
 
 const PositionListAlpha = () => {
     const [page, setPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("")
+    const debounceSearchTerm = useDebounce(searchTerm, 300);
     const [selectedLevel, setSelectedLevel] = useState("state");
     const [positions, setPositions] = useState([]);
     const [positionStatuses, setPositionStatuses] = useState([]);
@@ -43,6 +48,7 @@ const PositionListAlpha = () => {
               : 100;
 
     const { data: positionStatusData, isLoading } = usePositionStatusQuery({
+        search: debounceSearchTerm,
         type: selectedLevel,
         page,
         limit,
@@ -168,13 +174,28 @@ const PositionListAlpha = () => {
                 return cellValue;
         }
     }, []);
+    const handleSearchInputChange = useCallback((e) => {
+        const value = e.target.value
+        setSearchTerm(value)
+      }, [])
+    
+      const filteredPositionStatuses = useMemo(() => {
+        if (searchTerm === "") {
+          return positionStatuses
+        }
+        const lowercasedSearchTerm = searchTerm.toLowerCase()
+        return positionStatuses.filter((status) => {
+          const fieldsToSearch = [status.state, status.district, status.township]
+          return fieldsToSearch.some((field) => field.toLowerCase().includes(lowercasedSearchTerm))
+        })
+      }, [positionStatuses, searchTerm])
     return (
         <div className="z-50 bg-white">
-            <div className="flex w-full items-end mt-3 justify-between">
+            <div className="flex w-full items-end mt-3 justify-start gap-3 ml-5">
                 <Autocomplete
-                    radius="none"
+                    radius="sm"
                     defaultSelectedKey="state"
-                    className="max-w-xs ml-5"
+                    className="max-w-xs"
                     defaultItems={levels}
                     placeholder="နေရာရွေးပါ"
                     onSelectionChange={(key) => {
@@ -202,6 +223,7 @@ const PositionListAlpha = () => {
                         </AutocompleteItem>
                     )}
                 </Autocomplete>
+                {selectedLevel == "township" && <Input radius="sm" startContent={<Search />} className="w-[16rem]" value={searchTerm} onChange={handleSearchInputChange} placeholder="Search by Name ..." />}
             </div>
             <div className="w-full overflow-x-auto">
                 <Table
@@ -221,7 +243,7 @@ const PositionListAlpha = () => {
                     </TableHeader>
                     <TableBody 
                         isLoading={isLoading}
-                        items={positionStatuses}
+                        items={filteredPositionStatuses}
                         loadingContent={<Loading />}
                     >
                         {(item) => {
