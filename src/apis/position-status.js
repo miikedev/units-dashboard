@@ -2,8 +2,9 @@ import { constructUrl, api } from ".";
 export const fetchPositionStatuses = async (
   type,
   page = 1,
-  limit = 20,
-  search = ''
+  limit = 10,
+  search = '',
+  status = ''
 ) => {
   const baseUrl = '/position-statuses';
   const queryParams = [];
@@ -16,6 +17,10 @@ export const fetchPositionStatuses = async (
   // Add search if provided
   if (search && search.trim() !== '') {
     queryParams.push(`search=${encodeURIComponent(search.trim())}`);
+  }
+
+  if (status && status.trim() !== '') {
+    queryParams.push(`status=${encodeURIComponent(status.trim())}`);
   }
 
   // Construct final URL

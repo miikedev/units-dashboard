@@ -6,6 +6,7 @@ export const statusFilterAtom = atom();
 export const fetchedPositionsAtom = atom([]);
 
 export const pageAtom = atom(1);
+export const inactivePageAtom = atom(1)
 export const unitsAtom = atom([]);
 export const unitsPaginationAtom = atom({});
 export const columnsAtom = atom([
