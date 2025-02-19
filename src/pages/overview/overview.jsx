@@ -13,9 +13,14 @@ import InactivePositionTable from "./inactive-position-table";
 import { useOverviewQuery } from "@/apis/overviewQuery";
 import Error from "@/components/Error";
 import { LoaderIcon } from "lucide-react";
+import { usePositionStatusQuery } from "@/apis/positionStatusQuery";
+import { inactivePageAtom } from "../units/atoms";
 
 const Overview = () => {
+  const [ page ] = useAtom(inactivePageAtom)
   const { data, isSuccess, isPending, isError } = useOverviewQuery();
+  const { data: NData, isSuccess: NSuccess, isLoading: NLoading, isError: NError } = usePositionStatusQuery({page, status: "N"})
+  console.log('n data: ' , NData?.data)
   const [statusSum, setStatusSum] = useState({ A: 0, N: 0, C: 0 });
   const [showStatus, setShowStatus] = useAtom(showStatusAtom);
   useEffect(() => {
@@ -31,8 +36,7 @@ const Overview = () => {
       setStatusSum(calculatedSum);
     }
   }, [data, isSuccess]);
-  console.log('data', data?.data)
-  console.log('Overview status sum:', statusSum);
+
   const result = data?.data.flatMap(item =>
     Object.entries(item.count).map(([status, count]) => ({
       level: item.level,
@@ -41,7 +45,7 @@ const Overview = () => {
       fill: item.fill
     }))
   );
-  console.log('result', result)
+
   const filterAStatus = result?.filter(i => i.status === 'A')
   const filterCStatus = result?.filter(i => i.status === 'C')
   const filterNStatus = result?.filter(i => i.status === 'N')
@@ -59,6 +63,7 @@ const Overview = () => {
       value: filterNStatus
     }
   ]
+
   console.log('pieData', pieData)
   if (isPending) return <div className="flex justify-center items-center w-full h-3/4"><Loading /></div>;
   if (isError) return <div className="flex justify-center items-center w-full h-3/4"><Error /></div>
@@ -73,8 +78,8 @@ const Overview = () => {
   console.log('pieChartData', pieChartData)
 
   return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-5">
+    <div className="px-5">
+      <div className="grid lg:grid-cols-4 my-5">
         <Card>
           <CardHeader>ခန့်ထားပြီးသူ နှင့် လျာထားပြီးသူ စုစုပေါင်း</CardHeader>
           <CardContent>{statusSum.A + statusSum.C}</CardContent>
@@ -104,7 +109,7 @@ const Overview = () => {
       {
         showStatus && (
           <div className="mb-5">
-            {/* <InactivePositionTable data={statusZeroPositions} /> */}
+            <InactivePositionTable loading={NLoading} data={NData?.data.results} totalPages={NData?.data.totalPages} />
           </div>
         )
       }
@@ -114,7 +119,7 @@ const Overview = () => {
           {pieData.map(({value, name}, index) => {
             console.log(data)
             return (
-              <PieChart key={index} data={value} label={name} />
+              <PieChart key={index} data={value} label={name}/>
             )
           })}
         </div>
